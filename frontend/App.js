@@ -1,10 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import Register from "./pages/register";
+import Welcome from "./pages/welcome";
 export default function App() {
   return (
     <View style={styles.container}>
-      <Register />
+      {/* <Register /> */}
+      <Welcome />
     </View>
   );
 }

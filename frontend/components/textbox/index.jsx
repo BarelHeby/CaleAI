@@ -22,7 +22,7 @@ export default function TextBox({
               : isAvailable === false
               ? "red"
               : "transparent",
-          borderWidth: 1,
+          borderWidth: 2,
           marginBottom: 10,
           padding: 10,
           borderRadius: 10,

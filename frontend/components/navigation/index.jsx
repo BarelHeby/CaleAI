@@ -4,7 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 export default function Navigation({ text, to = "" }) {
   return (
-    <View style={{ flexDirection: "row" }}>
+    <View style={{ flexDirection: "row", marginTop: 20 }}>
       <AntDesign
         name="arrowleft"
         size={24}

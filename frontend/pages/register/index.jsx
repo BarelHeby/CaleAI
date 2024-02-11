@@ -1,9 +1,11 @@
-import { View, Text, Pressable, Alert, TouchableOpacity } from "react-native";
+import { View, Text, Alert } from "react-native";
 import TextBox from "../../components/textbox";
 import { useState } from "react";
 import ImageButton from "../../components/image/ImageButton";
 import Navigation from "../../components/navigation";
-function Register() {
+import Button from "../../components/Button";
+
+export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,17 +25,26 @@ function Register() {
     },
   };
   return (
-    <View>
+    <View
+      style={{
+        marginTop: 50,
+        height: "100%",
+        width: "90%",
+        alignSelf: "center",
+        flex: 1,
+      }}
+    >
       <Navigation text={"Let's Get Started"} />
       <View
         style={{
-          width: "80%",
           padding: 10,
-          alignContent: "center",
-          height: "70%",
+          width: "100%",
+          alignSelf: "center",
+          marginBottom: "auto",
         }}
       >
         <TextBox
+          isAvailable={true}
           style={styles.input}
           placeholder="Username"
           value={username}
@@ -60,6 +71,8 @@ function Register() {
           onChangeText={setConfirmPassword}
           secureTextEntry
         />
+      </View>
+      <View style={{ marginBottom: "auto" }}>
         <Text
           style={{
             fontSize: 19,
@@ -92,49 +105,22 @@ function Register() {
             }
           />
         </View>
-        <Text
-          style={{
-            textAlign: "center",
-          }}
-        >
-          Sync your calendar help us to manage your current activities.
-        </Text>
-        <Text style={{ textAlign: "center" }}>
-          if you dont have calendar it's fine
-        </Text>
-        <TouchableOpacity
-          style={{
-            marginTop: 20,
-            backgroundColor: "#5F33E1",
-            borderRadius: 10,
-            padding: 15,
-            shadowColor: "gray",
-            shadowRadius: 10,
-            shadowOpacity: 1,
-            shadowOffset: { width: 0, height: 10 },
-          }}
-          onPress={handleSubmit}
-        >
+        <View>
           <Text
             style={{
-              color: "white",
-              marginStart: "auto",
-              marginEnd: "auto",
-              fontSize: 19,
+              textAlign: "center",
             }}
           >
-            Register
+            Sync your calendar help us to manage your current activities.
           </Text>
-        </TouchableOpacity>
-        {/* <Pressable
-          style={{ margin: 20, backgroundColor: "#5F33E1" }}
-          title="Register"
-          onPress={handleSubmit}
-          color="#5F33E1"
-        /> */}
+          <Text style={{ textAlign: "center" }}>
+            if you dont have calendar it's fine
+          </Text>
+        </View>
+      </View>
+      <View style={{ marginBottom: "auto", marginTop: "auto" }}>
+        <Button text={"Register"} onPress={handleSubmit} />
       </View>
     </View>
   );
 }
-
-export default Register;

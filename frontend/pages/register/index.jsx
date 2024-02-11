@@ -1,16 +1,8 @@
-import {
-  View,
-  Text,
-  TextInput,
-  SafeAreaView,
-  Pressable,
-  Alert,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, Pressable, Alert, TouchableOpacity } from "react-native";
 import TextBox from "../../components/textbox";
 import { useState } from "react";
 import ImageButton from "../../components/image/ImageButton";
+import Navigation from "../../components/navigation";
 function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -18,7 +10,7 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const handleSubmit = () => {
     if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match!");
+      Alert.alert("Error", "Passwords do cnot match!");
     } else {
       // Submit the form
       Alert.alert("Success", "Registration successful!");
@@ -32,9 +24,7 @@ function Register() {
   };
   return (
     <View>
-      <Text style={{ fontWeight: "bold", fontSize: 19 }}>
-        Let's Get Started
-      </Text>
+      <Navigation text={"Let's Get Started"} />
       <View
         style={{
           width: "80%",
@@ -118,7 +108,12 @@ function Register() {
             backgroundColor: "#5F33E1",
             borderRadius: 10,
             padding: 15,
+            shadowColor: "gray",
+            shadowRadius: 10,
+            shadowOpacity: 1,
+            shadowOffset: { width: 0, height: 10 },
           }}
+          onPress={handleSubmit}
         >
           <Text
             style={{
@@ -131,12 +126,12 @@ function Register() {
             Register
           </Text>
         </TouchableOpacity>
-        <Pressable
+        {/* <Pressable
           style={{ margin: 20, backgroundColor: "#5F33E1" }}
           title="Register"
           onPress={handleSubmit}
           color="#5F33E1"
-        />
+        /> */}
       </View>
     </View>
   );

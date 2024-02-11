@@ -1,11 +1,10 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-
+import { Button, StyleSheet, Text, View } from "react-native";
+import Register from "./pages/register";
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open uuup App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Register />
     </View>
   );
 }

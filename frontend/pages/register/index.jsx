@@ -44,7 +44,6 @@ export default function Register() {
         }}
       >
         <TextBox
-          isAvailable={true}
           style={styles.input}
           placeholder="Username"
           value={username}

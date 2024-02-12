@@ -6,9 +6,11 @@ export default function Button({ text, onPress, style }) {
     <TouchableOpacity
       style={{
         ...style,
-        backgroundColor: "#5F33E1",
+        backgroundColor: style?.backgroundColor
+          ? style.backgroundColor
+          : "#5F33E1",
         borderRadius: 10,
-        padding: 15,
+        padding: style?.padding ? style.padding : 15,
         shadowColor: "gray",
         shadowRadius: 10,
         shadowOpacity: 1,
@@ -18,7 +20,7 @@ export default function Button({ text, onPress, style }) {
     >
       <Text
         style={{
-          color: "white",
+          color: style?.color ? style.color : "white",
           marginStart: "auto",
           marginEnd: "auto",
           fontSize: 19,

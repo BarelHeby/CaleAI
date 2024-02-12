@@ -16,13 +16,14 @@ export default function TextBox({
         style={{
           ...style,
           height: 40,
-          borderColor:
-            isAvailable === true
-              ? "green"
-              : isAvailable === false
-              ? "red"
-              : "transparent",
-          borderWidth: 2,
+          borderColor: style.borderColor
+            ? style.borderColor
+            : isAvailable === true
+            ? "green"
+            : isAvailable === false
+            ? "red"
+            : "transparent",
+          borderWidth: style.borderWidth ? style.borderWidth : 2,
           marginBottom: 10,
           padding: 10,
           borderRadius: 10,

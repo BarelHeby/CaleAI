@@ -3,12 +3,14 @@ import { Button, StyleSheet, Text, View } from "react-native";
 import Register from "./pages/register";
 import Welcome from "./pages/welcome";
 import AddActivity from "./pages/activities/add";
+import CalandarView from "./pages/calandarView";
 export default function App() {
   return (
     <View style={styles.container}>
       {/* <Register /> */}
       {/* <Welcome /> */}
-      <AddActivity />
+      {/* <AddActivity /> */}
+      <CalandarView />
     </View>
   );
 }
@@ -19,8 +21,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    // height: "100vh",
-
-    // overflow: "hidden",
   },
 });

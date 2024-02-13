@@ -20,7 +20,7 @@ export default function Button({ text, onPress, style }) {
     >
       <Text
         style={{
-          color: style?.color ? style.color : "white",
+          color: style?.color ? style.color : "#E8EAED",
           marginStart: "auto",
           marginEnd: "auto",
           fontSize: 19,

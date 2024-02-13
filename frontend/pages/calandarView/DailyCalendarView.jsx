@@ -83,8 +83,6 @@ const DailyCalendarView = ({ selectedDate, setSelectedDate, events }) => {
           flexDirection: "row",
           alignItems: "center",
           padding: 10,
-          marginBottom: 5,
-          // borderRadius: 5,
           borderRadius: 20,
           borderWidth: 1,
           shadowColor: "black",

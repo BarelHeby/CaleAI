@@ -9,6 +9,7 @@ export default function TextBox({
   keyboardType,
   secureTextEntry = false,
   style = {},
+  readOnly = false,
 }) {
   return (
     <View>
@@ -28,13 +29,14 @@ export default function TextBox({
           padding: 10,
           borderRadius: 10,
           width: "100%",
-          fontSize: 20,
+          fontSize: style.fontSize ? style.fontSize : 20,
         }}
         placeholder={placeholder}
         onChangeText={onChangeText}
         value={value}
         keyboardType={keyboardType}
         secureTextEntry={secureTextEntry}
+        editable={!readOnly}
       />
     </View>
   );

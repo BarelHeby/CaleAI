@@ -4,6 +4,7 @@ import Register from "./pages/register";
 import Welcome from "./pages/welcome";
 import AddActivity from "./pages/activities/add";
 import CalandarView from "./pages/calandarView";
+import EditTask from "./pages/activities/edit";
 export default function App() {
   return (
     <View style={styles.container}>
@@ -11,6 +12,7 @@ export default function App() {
       {/* <Welcome /> */}
       {/* <AddActivity /> */}
       <CalandarView />
+      {/* <EditTask /> */}
     </View>
   );
 }

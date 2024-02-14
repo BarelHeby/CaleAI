@@ -68,14 +68,14 @@ let categories = [
   "other",
 ];
 const events = Array.from({ length: 10 }, (_, i) => {
-  let startDate = new Date();
-  let endDate = new Date();
-  endDate.setDate(startDate.getDate() + 1);
+  let startTime = new Date();
+  let endTime = new Date();
+  endTime.setDate(startTime.getDate() + 1);
 
   return {
-    start: startDate,
-    end: endDate,
-    name: `${categories[i % categories.length]}`,
+    startTime: startTime,
+    endTime: endTime,
+    name: `${categories[i % categories.length]} Name`,
     description: `This is the summary for event ${i + 1}`,
     category: categories[i % categories.length], // Cycle through categories
   };

@@ -1,9 +1,18 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 import { AntDesign } from "react-native-vector-icons";
 import Colors from "../../assets/Colors";
 import Activities from "../../assets/Activities";
+import TaskEdit from "./components/TaskEdit";
 const Event = ({ event }) => {
+  const [showEdit, setShowEdit] = React.useState(false);
   function formatTime(date) {
     let hours = date.getHours().toString().padStart(2, "0");
     let minutes = date.getMinutes().toString().padStart(2, "0");
@@ -19,31 +28,37 @@ const Event = ({ event }) => {
         shadowOpacity: 0.5,
       }}
     >
-      <Text style={{ fontSize: 15 }}>{formatTime(event.start)}</Text>
-      <View
-        style={[
-          styles.event,
-          {
-            backgroundColor: Activities[event.category].color,
-            flexDirection: "row",
-            width: "100%",
-            overflow: "hidden",
-            alignItems: "center",
-            padding: 10,
-            borderWidth: 1,
-            borderRadius: 5,
-          },
-        ]}
-      >
-        <Text style={{ fontSize: 30, marginEnd: 10, textAlign: "center" }}>
-          {Activities[event.category].emoji}
-        </Text>
-        <View style={{ width: "70%", overflow: "hidden" }}>
-          <Text style={{ fontSize: 17, fontWeight: "bold" }}>{event.name}</Text>
-          <Text style={{ fontSize: 15 }}>{event.description}</Text>
+      {/* <Text style={{ fontSize: 15 }}>{showEdit.valueOf().toString()}</Text> */}
+      <TaskEdit show={showEdit} setShow={setShowEdit} task={event} />
+      <Text style={{ fontSize: 15 }}>{formatTime(event.startTime)}</Text>
+      <TouchableOpacity onPress={() => setShowEdit((prev) => !prev)}>
+        <View
+          style={[
+            styles.event,
+            {
+              backgroundColor: Activities[event.category].color,
+              flexDirection: "row",
+              width: "100%",
+              overflow: "hidden",
+              alignItems: "center",
+              padding: 10,
+              borderWidth: 1,
+              borderRadius: 5,
+            },
+          ]}
+        >
+          <Text style={{ fontSize: 30, marginEnd: 10, textAlign: "center" }}>
+            {Activities[event.category].emoji}
+          </Text>
+          <View style={{ width: "70%", overflow: "hidden" }}>
+            <Text style={{ fontSize: 17, fontWeight: "bold" }}>
+              {event.name}
+            </Text>
+            <Text style={{ fontSize: 15 }}>{event.description}</Text>
+          </View>
         </View>
-      </View>
-      <Text style={{ fontSize: 15 }}>{formatTime(event.end)}</Text>
+      </TouchableOpacity>
+      <Text style={{ fontSize: 15 }}>{formatTime(event.endTime)}</Text>
     </View>
   );
 };

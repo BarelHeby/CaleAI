@@ -4,8 +4,8 @@ import { useState } from "react";
 import ImageButton from "../../components/image/ImageButton";
 import Navigation from "../../components/navigation";
 import Button from "../../components/Button";
-
-export default function Register() {
+import routes from "../../assets/routes";
+export default function Register({ navigation }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,6 +16,7 @@ export default function Register() {
     } else {
       // Submit the form
       Alert.alert("Success", "Registration successful!");
+      navigation.navigate(routes.addActivity.name);
     }
   };
 
@@ -34,7 +35,7 @@ export default function Register() {
         flex: 1,
       }}
     >
-      <Navigation text={"Let's Get Started"} />
+      <Navigation text={"Let's Get Started"} navigation={navigation} />
       <View
         style={{
           padding: 10,

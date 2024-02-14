@@ -4,8 +4,9 @@ import Navigation from "../../../components/navigation";
 import ActivityCard from "./ActivityCard";
 import Button from "../../../components/Button";
 import AddModal from "./AddModal";
+import routes from "../../../assets/routes";
 
-export default function AddActivity() {
+export default function AddActivity({ navigation }) {
   const [showModal, setShowModal] = React.useState(false);
   const avtivities = [
     { name: "Call mom", logo: "📞" },
@@ -28,7 +29,7 @@ export default function AddActivity() {
       }}
     >
       <AddModal show={showModal} setShow={setShowModal} />
-      <Navigation text="Let us know you better" />
+      <Navigation text="Let us know you better" navigation={navigation} />
       <Text
         style={{
           fontSize: 19,
@@ -66,7 +67,10 @@ export default function AddActivity() {
           </View>
         ))}
       </View>
-      <Button text={"Finish"} />
+      <Button
+        text={"Finish"}
+        onPress={() => navigation.navigate(routes.calandarView.name)}
+      />
     </View>
   );
 }

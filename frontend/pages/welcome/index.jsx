@@ -2,7 +2,8 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 import woman from "../../assets/images/Woman_Think.png";
 import Button from "../../components/Button";
-export default function Welcome() {
+import routes from "../../assets/routes";
+export default function Welcome({ navigation }) {
   return (
     <View
       style={{
@@ -53,7 +54,7 @@ export default function Welcome() {
       <View style={{ marginBottom: "auto", marginTop: "auto" }}>
         <Button
           text={"Let's Start"}
-          onPress={undefined}
+          onPress={() => navigation.navigate(routes.register.name)}
           style={{ marginTop: 50 }}
         />
       </View>

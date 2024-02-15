@@ -24,7 +24,7 @@ const events = Array.from({ length: 10 }, (_, i) => {
     category: categories[i % categories.length], // Cycle through categories
   };
 });
-export default function TaskRow({ i }) {
+export default function TaskRow({ i, navigation }) {
   const task = events[i];
   return (
     <View

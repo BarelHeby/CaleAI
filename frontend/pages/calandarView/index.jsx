@@ -6,11 +6,10 @@ import DailyCalendarView from "./DailyCalendarView";
 import UserPanel from "./UserPanel";
 import SidePanel from "./sidePanel";
 import AddModal from "../activities/add/AddModal";
-export default function CalandarView() {
+export default function CalandarView({ navigation }) {
   const today = new Date();
   const [selected, setSelected] = useState(today);
   const [showSideBar, setShowSideBar] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(false);
   return (
     <View
       style={{
@@ -23,9 +22,8 @@ export default function CalandarView() {
       <SidePanel
         show={showSideBar}
         setShow={setShowSideBar}
-        setShowAddModal={setShowAddModal}
+        navigation={navigation}
       />
-      <AddModal show={showAddModal} setShow={setShowAddModal} />
       <UserPanel setShowSideBar={setShowSideBar} />
       <View
         style={{

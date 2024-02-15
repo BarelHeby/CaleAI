@@ -11,8 +11,9 @@ import { Entypo, AntDesign } from "react-native-vector-icons";
 import Colors from "../../../assets/Colors";
 import TaskRow from "./components/taskRow";
 import AddModal from "../../activities/add/AddModal";
+import routes from "../../../assets/routes";
 
-export default function SidePanel({ show, setShow, setShowAddModal }) {
+export default function SidePanel({ show, setShow, navigation }) {
   const [showTasks, setShowTasks] = React.useState(true);
   const [showCalendars, setShowCalendars] = React.useState(true);
   if (!show) {
@@ -40,8 +41,8 @@ export default function SidePanel({ show, setShow, setShowAddModal }) {
               <Text style={{ fontSize: 18, fontWeight: "bold" }}>Tasks</Text>
               <TouchableOpacity
                 onPress={() => {
-                  setShowAddModal(true);
                   setShow(false);
+                  navigation.navigate(routes.addActivity.name);
                 }}
               >
                 <Entypo name="plus" size={35} color="black" />

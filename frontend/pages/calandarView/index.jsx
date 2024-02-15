@@ -12,25 +12,27 @@ export default function CalandarView() {
       style={{
         width: "100%",
         height: "100%",
-        marginTop: 70,
+        marginTop: 50,
         flex: 1,
       }}
     >
       <UserPanel />
       <View
         style={{
+          marginStart: "auto",
+          marginEnd: "auto",
           width: "95%",
-          marginStart: 10,
-          marginEnd: 10,
           shadowColor: "gray",
-          shadowRadius: 50,
+          shadowRadius: 20,
           shadowOffset: { width: 0, height: 10 },
+          shadowOpacity: 1,
         }}
       >
         <Calendar
           style={{
             width: "100%",
             height: 310,
+            borderRadius: 20,
           }}
           markedDates={{
             [selected.toISOString().split("T")[0]]: {
@@ -47,6 +49,9 @@ export default function CalandarView() {
           firstDay={0}
           onPressArrowLeft={(subtractMonth) => subtractMonth()}
           onPressArrowRight={(addMonth) => addMonth()}
+          theme={{
+            calendarBackground: "transparent",
+          }}
         />
       </View>
       {/* <DailyView /> */}

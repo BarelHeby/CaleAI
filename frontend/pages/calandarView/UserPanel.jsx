@@ -5,7 +5,7 @@ import Colors from "../../assets/Colors";
 
 export default function UserPanel() {
   return (
-    <View style={{ padding: 10 }}>
+    <View>
       <View
         style={{
           width: "100%",

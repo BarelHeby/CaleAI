@@ -54,7 +54,7 @@ export default function Welcome({ navigation }) {
       <View style={{ marginBottom: "auto", marginTop: "auto" }}>
         <Button
           text={"Let's Start"}
-          onPress={() => navigation.navigate(routes.register.name)}
+          onPress={() => navigation.navigate(routes.login.name)}
           style={{ marginTop: 50 }}
         />
       </View>

@@ -2,6 +2,10 @@ export default routes = {
   welcome: {
     name: "welcome",
   },
+  login: {
+    name: "login",
+  },
+
   register: {
     name: "register",
   },

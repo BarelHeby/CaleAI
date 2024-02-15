@@ -26,21 +26,8 @@ export default function App() {
             />
           );
         })}
-        {/* <Stack.Screen name="welcome" component={Welcome} options={options} />
-        <Stack.Screen name="register" component={Register} options={options} />
-        <Stack.Screen
-          name="addActivity"
-          component={AddActivity}
-          options={options}
-        />
-        <Stack.Screen
-          name="calandarView"
-          component={CalandarView}
-          options={options}
-        /> */}
       </Stack.Navigator>
     </NavigationContainer>
-    // </View>
   );
 }
 const options = {

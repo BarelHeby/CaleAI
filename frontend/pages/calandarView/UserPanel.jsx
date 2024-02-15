@@ -1,9 +1,9 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { Entypo } from "react-native-vector-icons";
 import Colors from "../../assets/Colors";
 
-export default function UserPanel() {
+export default function UserPanel({ setShowSideBar }) {
   return (
     <View>
       <View
@@ -22,7 +22,9 @@ export default function UserPanel() {
           shadowOpacity: 0.5,
         }}
       >
-        <Entypo name="menu" size={40} color="black" />
+        <TouchableOpacity onPress={() => setShowSideBar(true)}>
+          <Entypo name="menu" size={40} color="black" />
+        </TouchableOpacity>
         <Text style={{ fontSize: 20, marginStart: 10 }}>CaleAI</Text>
         <Image
           width={40}

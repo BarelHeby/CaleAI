@@ -5,14 +5,13 @@ export default routes = {
   login: {
     name: "login",
   },
-
+  calandarView: {
+    name: "calandarView",
+  },
   register: {
     name: "register",
   },
   addActivity: {
     name: "addActivity",
-  },
-  calandarView: {
-    name: "calandarView",
   },
 };

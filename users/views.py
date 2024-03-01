@@ -3,6 +3,8 @@ from .models import User
 from .serializers import UserSerializer
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
+from django.utils import timezone
+import threading
 
 
 class UserView(APIView):
@@ -33,5 +35,13 @@ class LoginView(APIView):
         password = request.data.get('password')
         user = authenticate(username=username, password=password)
         if user:
+            threading.Thread(target=self.update_last_login,
+                             args=(user,)).start()
             return Response({'message': 'Login successful'})
         return Response({'message': 'Login failed'}, status=401)
+
+    @staticmethod
+    def update_last_login(user):
+        user.last_login = timezone.now()
+        user.save()
+        return user

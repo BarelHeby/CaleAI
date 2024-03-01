@@ -10,24 +10,28 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import routes from "./assets/routes";
 import routesComponents from "./assets/routesComponents";
+import { AuthProvider } from "./AuthContext";
+import { useAuth } from "./AuthContext";
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (
     // <View style={styles.container}>
-    <NavigationContainer>
-      <Stack.Navigator>
-        {Object.keys(routes).map((route, index) => {
-          return (
-            <Stack.Screen
-              key={index}
-              name={routes[route].name}
-              component={routesComponents[route].component}
-              options={options}
-            />
-          );
-        })}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {Object.keys(routes).map((route, index) => {
+            return (
+              <Stack.Screen
+                key={index}
+                name={routes[route].name}
+                component={routesComponents[route].component}
+                options={options}
+              />
+            );
+          })}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
 const options = {

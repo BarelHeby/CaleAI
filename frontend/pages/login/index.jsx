@@ -5,22 +5,39 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  Keyboard,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import woman from "../../assets/images/Woman_Think.png";
 import Button from "../../components/Button";
 import ImageButton from "../../components/image/ImageButton";
 import Colors from "../../assets/Colors";
 import routes from "../../assets/routes";
+import User from "../../models/User";
+import { useAuth } from "../../AuthContext";
+import { resetStackAndGoTo } from "../../models/Stack";
 export default function Login({ navigation }) {
-  function onSubmit() {
-    navigation.navigate(routes.calandarView.name);
-  }
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    Keyboard.dismiss();
+  }, []);
 
+  async function onSubmit() {
+    Keyboard.dismiss();
+    setLoading(true);
+    const user = await User.login(email, password);
+    setLoading(false);
+    if (user) {
+      resetStackAndGoTo(routes.calandarView.name, navigation);
+    } else {
+      alert("Invalid credentials");
+    }
+  }
   return (
     <View style={styles.container}>
       <Image source={woman} style={styles.image} />
-      {/* <View style={{ marginTop: "auto", marginBottom: "auto" }}> */}
       <Text style={styles.text}>Login</Text>
       <View style={styles.input}>
         <Text style={styles.textIcon}>📧</Text>
@@ -28,6 +45,7 @@ export default function Login({ navigation }) {
           placeholder="Email ID"
           style={{ ...styles.textInput, width: "90%" }}
           keyboardType="email-address"
+          onChangeText={(text) => setEmail(text)}
         />
       </View>
       <View style={styles.input}>
@@ -36,6 +54,7 @@ export default function Login({ navigation }) {
           placeholder="Password"
           style={styles.textInput}
           secureTextEntry={true}
+          onChangeText={(text) => setPassword(text)}
         />
         <TouchableOpacity>
           <Text
@@ -51,16 +70,12 @@ export default function Login({ navigation }) {
           </Text>
         </TouchableOpacity>
       </View>
-      {/* </View> */}
-      {/* <View style={{ marginBottom: "auto", marginTop: "auto" }}> */}
-      <Button text={"Login"} onPress={onSubmit} />
-      {/* </View> */}
+      <Button text={"Login"} onPress={onSubmit} disabled={loading} />
       <Text style={styles.small}>Or, login with ...</Text>
       <View
         style={{
           flexDirection: "row",
           justifyContent: "space-around",
-          //   padding: 20,
           marginBottom: 40,
           alignItems: "center",
         }}

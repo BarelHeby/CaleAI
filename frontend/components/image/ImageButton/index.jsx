@@ -7,7 +7,6 @@ export default function ImageButton({ uri, width = 60, height = 60 }) {
       style={{
         padding: 5,
         paddingHorizontal: 20,
-        borderWidth: 2,
         borderColor: "lightgray",
         borderRadius: 10,
       }}

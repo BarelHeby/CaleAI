@@ -37,7 +37,7 @@ class LoginView(APIView):
         if user:
             threading.Thread(target=self.update_last_login,
                              args=(user,)).start()
-            return Response({'message': 'Login successful'})
+            return Response(UserSerializer(user).data, status=200)
         return Response({'message': 'Login failed'}, status=401)
 
     @staticmethod

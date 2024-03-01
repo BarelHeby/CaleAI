@@ -5,6 +5,7 @@ import ImageButton from "../../components/image/ImageButton";
 import Navigation from "../../components/navigation";
 import Button from "../../components/Button";
 import routes from "../../assets/routes";
+import { resetStackAndGoTo } from "../../models/Stack";
 export default function Register({ navigation }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -16,7 +17,8 @@ export default function Register({ navigation }) {
     } else {
       // Submit the form
       Alert.alert("Success", "Registration successful!");
-      navigation.navigate(routes.addActivity.name);
+      // navigation.navigate(routes.addActivity.name);
+      resetStackAndGoTo(routes.calandarView.name, navigation);
     }
   };
 

@@ -1,15 +1,30 @@
 import { View } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar } from "react-native-calendars";
 import Task from "../../models/Task";
 import DailyCalendarView from "./DailyCalendarView";
 import UserPanel from "./UserPanel";
 import SidePanel from "./sidePanel";
 import AddModal from "../activities/add/AddModal";
+import routes from "../../assets/routes";
+import User from "../../models/User";
+import { CommonActions } from "@react-navigation/native";
 export default function CalandarView({ navigation }) {
   const today = new Date();
   const [selected, setSelected] = useState(today);
   const [showSideBar, setShowSideBar] = useState(false);
+  useEffect(() => {
+    async function checkUser() {
+      if ((await User.getUser()) === undefined)
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: routes.welcome.name }],
+          })
+        );
+    }
+    checkUser();
+  }, []);
   return (
     <View
       style={{
@@ -24,7 +39,7 @@ export default function CalandarView({ navigation }) {
         setShow={setShowSideBar}
         navigation={navigation}
       />
-      <UserPanel setShowSideBar={setShowSideBar} />
+      <UserPanel setShowSideBar={setShowSideBar} navigation={navigation} />
       <View
         style={{
           marginStart: "auto",
@@ -48,8 +63,6 @@ export default function CalandarView({ navigation }) {
               selectedColor: "blue",
             },
           }}
-          // selected={selected}
-          // current={selected.toString()}
           onDayPress={(day) => setSelected(new Date(day.dateString))}
           onMonthChange={(month) => {
             console.log("month changed", month);
@@ -62,7 +75,6 @@ export default function CalandarView({ navigation }) {
           }}
         />
       </View>
-      {/* <DailyView /> */}
       <DailyCalendarView
         events={events}
         selectedDate={selected}

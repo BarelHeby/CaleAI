@@ -1,9 +1,25 @@
 import { View, Text, Image } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import woman from "../../assets/images/Woman_Think.png";
 import Button from "../../components/Button";
 import routes from "../../assets/routes";
+import User from "../../models/User";
+import { CommonActions } from "@react-navigation/native";
+
 export default function Welcome({ navigation }) {
+  useEffect(() => {
+    async function checkUser() {
+      if (await User.getUser()) {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: routes.calandarView.name }],
+          })
+        );
+      }
+    }
+    checkUser();
+  }, []);
   return (
     <View
       style={{

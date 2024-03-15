@@ -1,7 +1,13 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 
-export default function Button({ text, onPress, style, disabled = false }) {
+export default function Button({
+  text,
+  onPress,
+  style,
+  disabled = false,
+  emoji = null,
+}) {
   return (
     <TouchableOpacity
       style={{
@@ -16,10 +22,15 @@ export default function Button({ text, onPress, style, disabled = false }) {
         shadowOpacity: 1,
         shadowOffset: { width: 0, height: 10 },
         opacity: disabled ? 0.5 : 1,
+        flexDirection: "row",
+        alignItems: "center",
       }}
       onPress={onPress}
       disabled={disabled}
     >
+      {emoji && (
+        <Text style={{ fontSize: 20, margin: 2, marginEnd: 5 }}>{emoji}</Text>
+      )}
       <Text
         style={{
           color: style?.color ? style.color : "#E8EAED",

@@ -1,10 +1,10 @@
 export default routes = {
-  welcome: {
-    name: "welcome",
-  },
-  login: {
-    name: "login",
-  },
+  // welcome: {
+  //   name: "welcome",
+  // },
+  // login: {
+  //   name: "login",
+  // },
   calandarView: {
     name: "calandarView",
   },
@@ -13,5 +13,8 @@ export default routes = {
   },
   addActivity: {
     name: "addActivity",
+  },
+  chatbot: {
+    name: "chatbot",
   },
 };

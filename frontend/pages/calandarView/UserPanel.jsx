@@ -5,8 +5,8 @@ import Colors from "../../assets/Colors";
 import User from "../../models/User";
 import routes from "../../assets/routes";
 import { resetStackAndGoTo } from "../../models/Stack";
-
-export default function UserPanel({ setShowSideBar, navigation }) {
+import robot from "../../assets/images/robot.png";
+export default function UserPanel({ navigation }) {
   return (
     <View>
       <View
@@ -25,8 +25,22 @@ export default function UserPanel({ setShowSideBar, navigation }) {
           shadowOpacity: 0.5,
         }}
       >
-        <TouchableOpacity onPress={() => setShowSideBar(true)}>
-          <Entypo name="menu" size={40} color="black" />
+        <TouchableOpacity
+          onPress={() => navigation.navigate(routes.chatbot.name)}
+        >
+          <Image
+            source={robot}
+            // width={50}
+            // height={50}
+            style={{
+              resizeMode: "contain",
+              width: 50,
+              height: 50,
+              borderRadius: 25,
+              borderWidth: 1,
+              borderColor: "black",
+            }}
+          />
         </TouchableOpacity>
         <Text style={{ fontSize: 20, marginStart: 10 }}>CaleAI</Text>
         <TouchableOpacity
@@ -36,13 +50,13 @@ export default function UserPanel({ setShowSideBar, navigation }) {
           }}
         >
           <Image
-            width={40}
-            height={40}
+            width={50}
+            height={50}
             source={{
               uri: "https://cdn.iconscout.com/icon/free/png-256/free-avatar-372-456324.png",
             }}
             style={{
-              borderRadius: 20,
+              borderRadius: 25,
               borderWidth: 1,
             }}
           />

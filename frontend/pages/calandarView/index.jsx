@@ -12,7 +12,7 @@ import { CommonActions } from "@react-navigation/native";
 export default function CalandarView({ navigation }) {
   const today = new Date();
   const [selected, setSelected] = useState(today);
-  const [showSideBar, setShowSideBar] = useState(false);
+  // const [showSideBar, setShowSideBar] = useState(false);
   useEffect(() => {
     async function checkUser() {
       if ((await User.getUser()) === undefined)
@@ -34,12 +34,12 @@ export default function CalandarView({ navigation }) {
         flex: 1,
       }}
     >
-      <SidePanel
+      {/* <SidePanel
         show={showSideBar}
         setShow={setShowSideBar}
         navigation={navigation}
-      />
-      <UserPanel setShowSideBar={setShowSideBar} navigation={navigation} />
+      /> */}
+      <UserPanel navigation={navigation} />
       <View
         style={{
           marginStart: "auto",

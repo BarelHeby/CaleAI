@@ -16,6 +16,7 @@ import routes from "../../assets/routes";
 import User from "../../models/User";
 import { useAuth } from "../../AuthContext";
 import { resetStackAndGoTo } from "../../models/Stack";
+import LoadingModal from "../../components/loadingModal";
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,9 +28,9 @@ export default function Login({ navigation }) {
   async function onSubmit() {
     Keyboard.dismiss();
     setLoading(true);
-    const user = await User.login(email, password);
+    const token = await User.login(email, password);
     setLoading(false);
-    if (user) {
+    if (token) {
       resetStackAndGoTo(routes.calandarView.name, navigation);
     } else {
       alert("Invalid credentials");
@@ -37,6 +38,7 @@ export default function Login({ navigation }) {
   }
   return (
     <View style={styles.container}>
+      <LoadingModal isLoading={loading} />
       <Image source={woman} style={styles.image} />
       <Text style={styles.text}>Login</Text>
       <View style={styles.input}>

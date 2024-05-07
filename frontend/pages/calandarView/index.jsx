@@ -15,13 +15,15 @@ export default function CalandarView({ navigation }) {
   // const [showSideBar, setShowSideBar] = useState(false);
   useEffect(() => {
     async function checkUser() {
-      if ((await User.getUser()) === undefined)
+      if (!(await User.is_logged_in())) {
+        console.log("User is logged in");
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
             routes: [{ name: routes.welcome.name }],
           })
         );
+      }
     }
     checkUser();
   }, []);

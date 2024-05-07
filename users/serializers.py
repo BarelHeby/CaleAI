@@ -1,20 +1,50 @@
 from rest_framework import serializers
-from .models import User
+from users.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the User model.
+    """
+
     class Meta:
         model = User
-        fields = ['username', 'password', 'email', 'image']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = '__all__'  # Include all fields of the User model
+        extra_kwargs = {
+            # Set password as write-only field
+            'password': {'write_only': True},
+        }
 
     def create(self, validated_data):
-        user = User(
+        user = User.objects.create(
             email=validated_data['email'],
-            username=validated_data['username'],
-            image=validated_data['image']
+            first_name=validated_data.get(
+                'first_name', ''),  # Handle optional fields
+            last_name=validated_data.get('last_name', ''),
+            morning_start_time=validated_data['morning_start_time'],
+            day_end_time=validated_data['day_end_time'],
         )
-        user.set_password(validated_data['password'])
+        user.set_password(validated_data['password'])  # Set password securely
         user.save()
         return user
-        # return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        instance.email = validated_data.get(
+            'email', instance.email)  # Update email
+        instance.first_name = validated_data.get(
+            'first_name', instance.first_name)
+        instance.last_name = validated_data.get(
+            'last_name', instance.last_name)
+        instance.morning_start_time = validated_data['morning_start_time']
+        instance.day_end_time = validated_data['day_end_time']
+        instance.save()
+        return instance
+
+    def to_representation(self, instance):
+        """
+        Overrides the default behavior to exclude the password field during retrieval.
+        """
+        representation = super().to_representation(instance)
+        # Remove password from representation
+        representation.pop('password', None)
+        return representation

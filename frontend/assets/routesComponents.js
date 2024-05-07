@@ -4,6 +4,7 @@ import AddActivity from "../pages/activities/add";
 import CalandarView from "../pages/calandarView";
 import Login from "../pages/login";
 import ChatBot from "../pages/chat/index";
+import MonthlyView from "../pages/calandarView/monthly";
 export default routes = {
   register: {
     component: Register,
@@ -22,5 +23,8 @@ export default routes = {
   },
   chatbot: {
     component: ChatBot,
+  },
+  monthlyCalendarView: {
+    component: MonthlyView,
   },
 };

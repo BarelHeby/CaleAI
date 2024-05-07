@@ -8,6 +8,9 @@ export default routes = {
   calandarView: {
     name: "calandarView",
   },
+  // monthlyCalendarView: {
+  //   name: "monthlyCalendarView",
+  // },
   register: {
     name: "register",
   },

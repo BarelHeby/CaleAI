@@ -5,4 +5,5 @@ export default Colors = {
   fourth: "#cac4f8",
   fifth: "#f1f1f1",
   textPrimary: "#E8EAED",
+  black: "#202020",
 };

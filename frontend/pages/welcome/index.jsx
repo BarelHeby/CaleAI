@@ -9,7 +9,8 @@ import { CommonActions } from "@react-navigation/native";
 export default function Welcome({ navigation }) {
   useEffect(() => {
     async function checkUser() {
-      if (await User.getUser()) {
+      if (await User.is_logged_in()) {
+        console.log("User is logged in");
         navigation.dispatch(
           CommonActions.reset({
             index: 0,

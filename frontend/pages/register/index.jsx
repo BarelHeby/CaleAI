@@ -6,21 +6,80 @@ import Navigation from "../../components/navigation";
 import Button from "../../components/Button";
 import routes from "../../assets/routes";
 import { resetStackAndGoTo } from "../../models/Stack";
+import LoadingModal from "../../components/loadingModal";
+import User from "../../models/User";
+import Storage from "../../models/storage";
 export default function Register({ navigation }) {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const handleSubmit = () => {
-    if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do cnot match!");
-    } else {
-      // Submit the form
-      Alert.alert("Success", "Registration successful!");
-      // navigation.navigate(routes.addActivity.name);
-      resetStackAndGoTo(routes.calandarView.name, navigation);
+  const [info, setInfo] = useState({
+    first_name: {
+      value: "",
+      placeholder: "First Name",
+      type: "default",
+    },
+    last_name: {
+      value: "",
+      placeholder: "Last Name",
+      type: "default",
+    },
+    email: {
+      value: "",
+      placeholder: "Email",
+      type: "email-address",
+    },
+    password: {
+      value: "",
+      placeholder: "Password",
+      type: "visible-password",
+    },
+    confirm_password: {
+      value: "",
+      placeholder: "Confirm Password",
+      type: "visible-password",
+    },
+  });
+  const [loading, setLoading] = useState(false);
+  function updateInfo(key, value) {
+    setInfo((prev) => {
+      return {
+        ...prev,
+        [key]: {
+          ...prev[key],
+          value: value,
+        },
+      };
+    });
+  }
+  async function handleSubmit() {
+    for (let key in info) {
+      if (info[key].value === "") {
+        Alert.alert("Error", "Please fill out all fields!");
+        return;
+      }
     }
-  };
+    if (info.password.value !== info.confirm_password.value) {
+      Alert.alert("Error", "Passwords do not match!");
+      return;
+    }
+
+    setLoading(true);
+    const u = new User(
+      info.first_name.value,
+      info.last_name.value,
+      info.email.value,
+      (password = info.password.value),
+      (morning_start_time = new Date().toISOString()),
+      (morning_end_time = new Date().toISOString())
+    );
+
+    const resp = await u.register();
+
+    setLoading(false);
+    if (resp) {
+      resetStackAndGoTo(routes.calandarView.name, navigation);
+    } else {
+      Alert.alert("Error", "Invalid credentials");
+    }
+  }
 
   const styles = {
     input: {
@@ -37,6 +96,7 @@ export default function Register({ navigation }) {
         flex: 1,
       }}
     >
+      <LoadingModal isLoading={loading} />
       <Navigation text={"Let's Get Started"} navigation={navigation} />
       <View
         style={{
@@ -46,7 +106,18 @@ export default function Register({ navigation }) {
           marginBottom: "auto",
         }}
       >
-        <TextBox
+        {Object.keys(info).map((key, index) => (
+          <TextBox
+            key={index}
+            style={styles.input}
+            placeholder={info[key].placeholder}
+            value={info[key].value}
+            onChangeText={(text) => updateInfo(key, text)}
+            keyboardType={info[key].type}
+            secureTextEntry={info[key].type === "visible-password"}
+          />
+        ))}
+        {/* <TextBox
           style={styles.input}
           placeholder="Username"
           value={username}
@@ -72,7 +143,7 @@ export default function Register({ navigation }) {
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry
-        />
+        /> */}
       </View>
       <View style={{ marginBottom: "auto" }}>
         <Text

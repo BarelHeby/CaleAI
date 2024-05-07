@@ -1,14 +1,26 @@
+
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.hashers import make_password
 
 
-class User(AbstractUser):
-    image = models.TextField(blank=True)
+class User(models.Model):
+    id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=50, blank=True)
+    last_name = models.CharField(max_length=50, blank=True)
+    morning_start_time = models.TimeField(blank=False, null=False)
+    day_end_time = models.TimeField(blank=False, null=False)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=256)
+    token = models.CharField(max_length=512, blank=True)
 
-    def set_image(self, base64_image):
-        # Directly save the base64 string to the database
-        self.image = base64_image
-        self.save()
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
 
-    def get_image(self):
-        return self.image
+    def __str__(self):
+        return self.email
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    def get(token):
+        return User.objects.get(token=token)

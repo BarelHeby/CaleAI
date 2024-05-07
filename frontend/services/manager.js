@@ -7,9 +7,14 @@ import axios from "axios";
 // import { API_URL } from "react-native-dotenv";
 const API_URL = "http://10.0.0.28:8000/";
 export default class Manager {
-  static get(model_url, parameters) {
+  static get(model_url, parameters, token = null) {
+    const headers = {};
+    if (token) {
+      headers["Authorization"] = "Token " + token;
+    }
     return axios.get(API_URL + model_url, {
       params: parameters,
+      headers: headers,
     });
   }
   static post(model_url, body) {

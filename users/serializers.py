@@ -23,6 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
             last_name=validated_data.get('last_name', ''),
             morning_start_time=validated_data['morning_start_time'],
             day_end_time=validated_data['day_end_time'],
+            token=validated_data.get('token', ''),
         )
         user.set_password(validated_data['password'])  # Set password securely
         user.save()
@@ -37,6 +38,7 @@ class UserSerializer(serializers.ModelSerializer):
             'last_name', instance.last_name)
         instance.morning_start_time = validated_data['morning_start_time']
         instance.day_end_time = validated_data['day_end_time']
+        instance.token = validated_data.get('token', instance.token)
         instance.save()
         return instance
 
@@ -47,4 +49,5 @@ class UserSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         # Remove password from representation
         representation.pop('password', None)
+        representation.pop('token', None)
         return representation

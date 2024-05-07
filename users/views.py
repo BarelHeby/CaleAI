@@ -14,12 +14,12 @@ TOKEN_LENGTH = 256
 
 
 class UserView(APIView):
-    def get(self, request):
-        queryset = User.objects.all()
-        serializer = UserSerializer(queryset, many=True)
+    def get(self, request, token=None):
+        queryset = User.objects.get(token=token)
+        serializer = UserSerializer(queryset)
         return Response(serializer.data)
 
-    def post(self, request):
+    def post(self, request, token=None):
         print(request.data)
         data = request.data
         data["morning_start_time"] = datetime.fromisoformat(
@@ -28,20 +28,10 @@ class UserView(APIView):
             str(data["day_end_time"]).replace("Z", "")).time()
         token = secrets.token_urlsafe(TOKEN_LENGTH)
         data["token"] = token
-
         serializer = UserSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response({"token": token}, status=201)
-        return Response(serializer.errors, status=400)
-
-    def put(self, request, pk=None):
-        user = User.objects.get(pk=pk)
-        serializer = UserSerializer(user, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        print(serializer.errors)
         return Response(serializer.errors, status=400)
 
 

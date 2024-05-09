@@ -12,6 +12,8 @@ import routes from "./assets/routes";
 import routesComponents from "./assets/routesComponents";
 import { AuthProvider } from "./AuthContext";
 import { useAuth } from "./AuthContext";
+import "react-native-reanimated";
+
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (

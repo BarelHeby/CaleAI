@@ -22,7 +22,7 @@ class TaskSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance.id = validated_data.get('id', instance.id)
         instance.name = validated_data.get('name', instance.name)  # Handle optional fields
-        instance.color = validated_data.get('color', instance.description)
+        instance.color = validated_data.get('color', instance.color)
 
         instance.save()
         return instance

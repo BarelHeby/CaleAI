@@ -1,11 +1,14 @@
 
 from django.db import models
+from users.models import User
+from calendars.models import Calendar
+from task_type.models import TaskType
 
 
 class Task(models.Model):
-    user_id = models.IntegerField()
-    calendar_id = models.IntegerField()
-    type_id = models.IntegerField()
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    calendar_id = models.ForeignKey(Calendar, on_delete=models.CASCADE)
+    type_id = models.ForeignKey(TaskType, on_delete=models.CASCADE)models.IntegerField()
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, blank=True)
     description = models.CharField(max_length=150, blank=True)
@@ -13,12 +16,12 @@ class Task(models.Model):
     to_time = models.TimeField(blank=False, null=False)
     frequency = models.CharField(null=False)
     duration = models.IntegerField()
-    is_splittable = models.IntegerField()
+    is_splittable = models.BooleanField()
     priority = models.IntegerField()
-    is_morning = models.IntegerField()
-    is_noon = models.IntegerField()
-    is_evening = models.IntegerField()
-    is_parallelable = models.IntegerField()
+    is_morning = models.BooleanField()
+    is_noon = models.BooleanField()
+    is_evening = models.BooleanField()
+    is_parallelable = models.BooleanField()
 
     def __str__(self):
         return self.id

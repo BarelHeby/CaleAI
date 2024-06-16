@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     "users",
     "calendars",
+    "users_calendars",
+    "task",
+    "task_type",
+    "event",
 ]
 
 MIDDLEWARE = [
@@ -77,18 +81,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'mssql',
-        'NAME': 'caleai',
-        'USER': 'CloudSAaee375c1',
-        'PASSWORD': 'BarelOmerAvi123',
-        'HOST': 'caleai-server.database.windows.net',
-        'PORT': '',
-        'OPTIONS': {
-            'driver': 'ODBC Driver 18 for SQL Server',
-        },
-    },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 # Password validation

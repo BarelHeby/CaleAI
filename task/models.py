@@ -14,7 +14,7 @@ class Task(models.Model):
     description = models.CharField(max_length=150, blank=True)
     from_time = models.TimeField(blank=False, null=False)
     to_time = models.TimeField(blank=False, null=False)
-    frequency = models.CharField(null=False)
+    frequency = models.CharField(max_length=150,null=False)
     duration = models.IntegerField()
     is_splittable = models.BooleanField()
     priority = models.IntegerField()

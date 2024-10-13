@@ -22,6 +22,10 @@ Follow these steps to get the project up and running on your local machine:
     pip install -r requirements.txt
     ```
 
+1.2 Update const API_URL in manager.py
+
+1.3 Run python manage.py makemigrations and then run python manage.py migrate
+
 2. Run the Django server:
 
     ```

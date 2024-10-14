@@ -5,7 +5,7 @@ import axios from "axios";
 // import react-native-doten
 // const env = configDotenv();
 // import { API_URL } from "react-native-dotenv";
-const API_URL = "http://10.0.0.28:8000/";
+const API_URL = "http://10.0.0.26:8000/";
 export default class Manager {
   static get(model_url, parameters, token = null) {
     const headers = {};

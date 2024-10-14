@@ -12,16 +12,16 @@ class Task(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, blank=True)
     description = models.CharField(max_length=150, blank=True)
-    from_time = models.TimeField(blank=False, null=False)
-    to_time = models.TimeField(blank=False, null=False)
-    frequency = models.CharField(max_length=150,null=False)
-    duration = models.IntegerField()
-    is_splittable = models.BooleanField()
-    priority = models.IntegerField()
-    is_morning = models.BooleanField()
-    is_noon = models.BooleanField()
-    is_evening = models.BooleanField()
-    is_parallelable = models.BooleanField()
+    from_time = models.TimeField(blank=False, null=False) #optional field if is constant 
+    to_time = models.TimeField(blank=False, null=False) # optional field if is constant
+    frequency = models.CharField(max_length=150,null=False) # one time, daily, weekly, monthly, yearly 
+    duration = models.IntegerField() # in minutes
+    is_splittable = models.BooleanField() # if the task can be split into smaller tasks
+    priority = models.IntegerField() # 1-5
+    is_morning = models.BooleanField()  # if this task prefers morning
+    is_noon = models.BooleanField() # if this task prefers noon
+    is_evening = models.BooleanField() # if this task prefers evening
+    is_parallelable = models.BooleanField() # if this task can be done in parallel with other tasks
 
     def __str__(self):
         return self.id

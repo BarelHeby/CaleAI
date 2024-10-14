@@ -15,7 +15,7 @@ class TaskSerializer(serializers.ModelSerializer):
             user_id = validated_data['user_id'],
             calendar_id = validated_data['calendar_id'],
             type_id = validated_data['type_id'],
-            id=validated_data['id'],
+            # id=validated_data['id'],
             name=validated_data.get('name', ''),  # Handle optional fields
             description=validated_data.get('description', ''),
             from_time=validated_data['from_time'],

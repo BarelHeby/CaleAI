@@ -24,7 +24,7 @@ class Task(models.Model):
     is_parallelable = models.BooleanField() # if this task can be done in parallel with other tasks
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
     # USERNAME_FIELD = 'id'
     # REQUIRED_FIELDS = []

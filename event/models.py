@@ -11,9 +11,11 @@ class Event(models.Model):
     from_time = models.TimeField(blank=False, null=False)
     to_time = models.TimeField(blank=False, null=False)
     is_constant = models.BooleanField()
+    date = models.DateField(blank=False, null=False)
 
     def __str__(self):
-        return self.id
+        return f"{str(self.task_id)} on {self.date} from {self.from_time} to {self.to_time}"
+
 
     # USERNAME_FIELD = 'id'
     # REQUIRED_FIELDS = []

@@ -5,6 +5,7 @@ const activities_options = Object.keys(Activities).map((key) => {
     label: Activities[key].label,
     emoji: Activities[key].emoji,
     value: Activities[key].label,
+    page: "category"
   };
 });
 // console.log(activities_buttons);
@@ -27,11 +28,22 @@ export default conf_bot = {
             bot_label: "How Often do you want to do this task?",
             key: "frequency",
             options: [
-              { type: "Button", label: "Daily", value: "daily" },
-              { type: "Button", label: "Weekly", value: "weekly" },
-              { type: "Button", label: "Monthly", value: "monthly" },
+              { type: "Button", label: "Daily", value: "daily", page: "frequency" },
+              { type: "Button", label: "Weekly", value: "weekly", page: "frequency" },
+              { type: "Button", label: "Monthly", value: "monthly", page: "frequency" },
             ],
           },
+
+          {
+            bot_label: "what time of the day do you wish to do this task?",
+            key: "time",
+            options: [
+              { type: "Button", label: "Morning", value: "Morning", page: "time" },
+              { type: "Button", label: "Noon", value: "Noon", page: "time" },
+              { type: "Button", label: "Evening", value: "Evening", page: "time" },
+            ],
+          },
+
           {
             bot_label: "How long do you want to spend on this task?",
             key: "duration",
@@ -43,18 +55,31 @@ export default conf_bot = {
             ],
           },
           {
-            bot_label: "Is this task can be split into multiple days?",
+            bot_label: "Is this task can be split into multiple times?",
             key: "split",
             options: [
-              { type: "Button", label: "Yes", value: "yes" },
-              { type: "Button", label: "No", value: "no" },
+              { type: "Button", label: "Yes", value: "yes", page: "split" },
+              { type: "Button", label: "No", value: "no", page: "split" },
             ],
           },
+            {
+            bot_label: "Task Added! what next?",
+            key: "more?",
+            type: "Button",
+            value: "more?",
+
+            options: [
+              { type: "Button", label: "Add another task", value: "more" },
+              { type: "Button", label: "Generate calendar", value: "generate" },
+            ],
+          },
+
         ],
       },
       {
         type: "Button",
         label: "Generate New Calendar",
+        value: "generate",
         successor: [],
       },
     ],

@@ -10,15 +10,16 @@ import ChatText from "./components/ChatText";
 import ChatButton from "./components/ChatButton";
 import ChatHoursMinutes from "./components/ChatHoursMinutes";
 import { Audio } from "expo-av";
-counter_tasks = 0
-chosen_tasks = []
-task = {
-"category": "",
-"frequency": "",
-"time": "",
-"duration": "",
-"split": ""
-}
+import Task from "../../models/Task";
+const counter_tasks = 0
+// chosen_tasks = []
+// const task = {
+//   "category": "",
+//   "frequency": "",
+//   "time": "",
+//   "duration": "",
+//   "split": ""
+// }
 const activities_options = Object.keys(Activities).map((key) => {
   return {
     type: "Button",
@@ -28,10 +29,23 @@ const activities_options = Object.keys(Activities).map((key) => {
     page: "category",
   };
 });
+
+function getDefaultTask() {
+  return {
+    "category": "",
+    "frequency": "",
+    "time": "",
+    "duration": "",
+    "split": ""
+  }
+}
 export default function ChatBot({ navigation }) {
   const [responses, setResponses] = useState([conf_bot.greeting]);
   const [responseIndex, setResponseIndex] = useState(0);
   const [botModel, setBotModel] = useState(new BotModel());
+  const [chosen_tasks, setChosenTasks] = useState([]);
+  const [task, setTask] = useState(getDefaultTask());
+
   const scrollViewRef = useRef();
   useEffect(() => {
     async function playSound() {
@@ -43,6 +57,152 @@ export default function ChatBot({ navigation }) {
     Vibration.vibrate(200);
     playSound();
   }, [responseIndex]);
+
+  async function onSubmit() {
+    const resp = await Task.createTasks(chosen_tasks)
+    console.log(resp)
+  }
+  async function onButtonPress(option,response){
+    {
+      if (option.page) {
+        if (option.page == "category") {
+          setTask((prev) => {
+            return {
+              ...prev,
+              category: option.value,
+            }
+          })
+          // task.category = option.value
+        }
+        if (option.page == "frequency") {
+          setTask((prev) => {
+            return {
+              ...prev,
+              frequency: option.value,
+            }
+          })
+          // task.frequency = option.value
+        }
+        if (option.page == "split") {
+          // setTask((prev) => {
+          //   return {
+          //     ...prev,
+          //     split: option.value,
+          //   }
+          // })
+          const temp = task
+          temp.split = option.value
+          setChosenTasks((prev) => [
+            ...prev,
+            ...[temp]
+          ])
+          setTask(getDefaultTask())
+          // task.split = option.value
+        }
+        if (option.page == "time") {
+          setTask((prev) => {
+            return {
+              ...prev,
+              time: option.value,
+            }
+          })
+          // task.time = option.value
+        }
+      }
+      if (option.successor) {
+        setResponses((prev) => [
+          ...prev,
+          ...option.successor,
+        ]);
+      }
+      setResponseIndex((prev) => prev + 1);
+      botModel.addResponse(response.key, option.label);
+      console.log(chosen_tasks)
+      console.log(task)
+      if (option.value == "generate") {
+        if (chosen_tasks.length === 0) {
+          console.log("no tasks!")
+          setResponses((prev) => [
+            ...prev,
+            ...[{ "bot_label": "You have no tasks to put in the calendar! insert a category for your first task What Category does the task belong to?", "key": "category", "options": activities_options, }, {
+              "bot_label": "How Often do you want to do this task?", "key": "frequency", "options": [
+                { type: "Button", label: "Daily", value: "daily", page: "frequency" },
+                { type: "Button", label: "Weekly", value: "weekly", page: "frequency" },
+                { type: "Button", label: "Monthly", value: "monthly", page: "frequency" },
+              ]
+            },
+            {
+              bot_label: "what time of the day do you wish to do this task?",
+              key: "time",
+              options: [
+                { type: "Button", label: "Morning", value: "Morning", page: "time" },
+                { type: "Button", label: "Noon", value: "Noon", page: "time" },
+                { type: "Button", label: "Evening", value: "Evening", page: "time" },
+              ],
+            },
+            { "bot_label": "How long do you want to spend on this task?", "key": "duration", "options": [{ type: "text-hours-minutes", label: "Set Duration", },] }, {
+              "bot_label": "Is this task can be split into multiple times?", "key": "split", "options": [
+                { type: "Button", label: "Yes", value: "yes", page: "split" },
+                { type: "Button", label: "No", value: "no", page: "split" },
+              ]
+            }, {
+              "bot_label": "Task Added! what next?", "key": "more?", "options": [
+                { type: "Button", label: "Add another task", value: "more" },
+                { type: "Button", label: "Generate New Calendar", value: "generate" },
+              ]
+            }],
+          ]);
+        }
+        // console.log(chosen_tasks)
+        onSubmit()
+        //                                 here need to call the algorithm with chosen_tasks
+      }
+      if (option.value == "more") {
+        // counter_tasks += 1
+        // task.id = counter_tasks
+        // console.log(task)
+        // setChosenTasks((prev) => [
+        //   ...prev,
+        //   ...[task]
+        // ])
+        // chosen_tasks.unshift(task)
+        setTask(getDefaultTask())
+
+        setResponses((prev) => [
+          ...prev,
+          ...[{ "bot_label": "Great! What Category does the task belong to?", "key": "category", "options": activities_options, }, {
+            "bot_label": "How Often do you want to do this task?", "key": "frequency", "options": [
+              { type: "Button", label: "Daily", value: "daily", page: "frequency" },
+              { type: "Button", label: "Weekly", value: "weekly", page: "frequency" },
+              { type: "Button", label: "Monthly", value: "monthly", page: "frequency" },
+            ]
+          },
+          {
+            bot_label: "what time of the day do you wish to do this task?",
+            key: "time",
+            options: [
+              { type: "Button", label: "Morning", value: "Morning", page: "time" },
+              { type: "Button", label: "Noon", value: "Noon", page: "time" },
+              { type: "Button", label: "Evening", value: "Evening", page: "time" },
+            ],
+          },
+
+          { "bot_label": "How long do you want to spend on this task?", "key": "duration", "options": [{ type: "text-hours-minutes", label: "Set Duration", },] }, {
+            "bot_label": "Is this task can be split into multiple times?", "key": "split", "options": [
+              { type: "Button", label: "Yes", value: "yes", page: "split" },
+              { type: "Button", label: "No", value: "no", page: "split" },
+            ]
+          }, {
+            "bot_label": "Task Added! what next?", "key": "more?", "options": [
+              { type: "Button", label: "Add another task", value: "more" },
+              { type: "Button", label: "Generate New Calendar", value: "generate" },
+            ]
+          }],
+        ]);
+
+      }
+    }
+  }
   return (
     <View style={styles.container}>
       <View style={styles.image_conteiner}>
@@ -71,109 +231,7 @@ export default function ChatBot({ navigation }) {
                           key={option.label + String(index)}
                           text={option.label}
                           emoji={option.emoji}
-                          onPress={() => {
-//                               console.log(option)
-                              if (option.page){
-                              if (option.page == "category"){
-                                    task.category = option.value
-                                }
-                              if (option.page == "frequency"){
-                                    task.frequency = option.value
-                              }
-                              if (option.page == "split"){
-                                    task.split = option.value
-                              }
-                              if (option.page == "time"){
-                                    task.time = option.value
-                              }
-                              }
-                            if (option.successor) {
-                              setResponses((prev) => [
-                                ...prev,
-                                ...option.successor,
-                              ]);
-                            }
-                            setResponseIndex((prev) => prev + 1);
-                            botModel.addResponse(response.key, option.label);
-                            if (option.value == "generate"){
-                                if (chosen_tasks.length === 0){
-                                console.log("no tasks!")
-                                setResponses((prev) => [
-                                ...prev,
-                                ... [{"bot_label": "You have no tasks to put in the calendar! insert a category for your first task What Category does the task belong to?", "key": "category", "options": activities_options,}, {"bot_label": "How Often do you want to do this task?", "key": "frequency", "options": [
-              { type: "Button", label: "Daily", value: "daily", page: "frequency" },
-              { type: "Button", label: "Weekly", value: "weekly", page: "frequency" },
-              { type: "Button", label: "Monthly", value: "monthly", page: "frequency" },
-            ]},
-                       {
-            bot_label: "what time of the day do you wish to do this task?",
-            key: "time",
-            options: [
-              { type: "Button", label: "Morning", value: "Morning", page: "time" },
-              { type: "Button", label: "Noon", value: "Noon", page: "time" },
-              { type: "Button", label: "Evening", value: "Evening", page: "time" },
-            ],
-          },
-             {"bot_label": "How long do you want to spend on this task?", "key": "duration", "options": [{type: "text-hours-minutes",label: "Set Duration",},]}, {"bot_label": "Is this task can be split into multiple times?", "key": "split", "options": [
-              { type: "Button", label: "Yes", value: "yes", page: "split" },
-              { type: "Button", label: "No", value: "no", page: "split" },
-            ]}, {"bot_label": "Task Added! what next?", "key": "more?", "options": [
-              { type: "Button", label: "Add another task", value: "more" },
-              { type: "Button", label: "Generate New Calendar", value: "generate" },
-            ]}],
-                              ]);
-
-
-
-
-
-
-                                }
-                                console.log(chosen_tasks)
-//                                 here need to call the algorithm with chosen_tasks
-                            }
-                            if (option.value == "more"){
-                            counter_tasks += 1
-                            task.id = counter_tasks
-                            console.log(task)
-                            chosen_tasks.unshift(task)
-
-                            task = {
-"category": "",
-"frequency": "",
-"time": "",
-"duration": "",
-"split": ""
-}
-
-                                setResponses((prev) => [
-                                ...prev,
-                                ... [{"bot_label": "Great! What Category does the task belong to?", "key": "category", "options": activities_options,}, {"bot_label": "How Often do you want to do this task?", "key": "frequency", "options": [
-              { type: "Button", label: "Daily", value: "daily", page: "frequency" },
-              { type: "Button", label: "Weekly", value: "weekly", page: "frequency" },
-              { type: "Button", label: "Monthly", value: "monthly", page: "frequency" },
-            ]},
-           {
-            bot_label: "what time of the day do you wish to do this task?",
-            key: "time",
-            options: [
-              { type: "Button", label: "Morning", value: "Morning", page: "time" },
-              { type: "Button", label: "Noon", value: "Noon", page: "time" },
-              { type: "Button", label: "Evening", value: "Evening", page: "time" },
-            ],
-          },
-
-             {"bot_label": "How long do you want to spend on this task?", "key": "duration", "options": [{type: "text-hours-minutes",label: "Set Duration",},]}, {"bot_label": "Is this task can be split into multiple times?", "key": "split", "options": [
-              { type: "Button", label: "Yes", value: "yes", page: "split" },
-              { type: "Button", label: "No", value: "no", page: "split" },
-            ]}, {"bot_label": "Task Added! what next?", "key": "more?", "options": [
-              { type: "Button", label: "Add another task", value: "more" },
-              { type: "Button", label: "Generate New Calendar", value: "generate" },
-            ]}],
-                              ]);
-
-                            }
-                          }}
+                          onPress={()=>onButtonPress(option,response)}
                         />
                       );
                     }
@@ -183,7 +241,7 @@ export default function ChatBot({ navigation }) {
                           key={option.label + String(index)}
                           text={option.label}
                           onPress={(val) => {
-                          task.duration = val
+                            task.duration = val
                             if (option.successor) {
                               setResponses((prev) => [
                                 ...prev,

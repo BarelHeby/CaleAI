@@ -1,11 +1,18 @@
+import Manager from "../services/manager";
 export default class Task {
-  constructor(date, name, category, description, startTime, endTime, icon) {
-    this.date = date;
-    this.name = name;
-    this.category = category;
-    this.description = description;
-    this.startTime = startTime;
-    this.endTime = endTime;
-    this.icon = icon;
+
+  static async createTasks(tasks){
+    const url = "task/"
+    const body = {
+      tasks: tasks
+    } 
+    return await Manager.post(url, body)
+      .then((resp) => {
+        return resp.data;
+      })
+      .catch((error) => {
+        return null;
+      });
   }
+
 }

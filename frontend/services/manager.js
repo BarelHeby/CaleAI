@@ -1,6 +1,7 @@
 // import env from "react-native-dotenv";
 // import { API_URL } from "@react-native-dotenv";
 import axios from "axios";
+import Storage from "../models/storage";
 // import { configDotenv } from "dotenv";
 // import react-native-doten
 // const env = configDotenv();
@@ -9,15 +10,23 @@ const API_URL = "http://10.0.0.26:8000/";
 export default class Manager {
   static get(model_url, parameters, token = null) {
     const headers = {};
-    if (token) {
-      headers["Authorization"] = "Token " + token;
+    const token_real = Storage.getData("token");
+    if (token_real) {
+      headers["Authorization"] = token_real;
     }
     return axios.get(API_URL + model_url, {
       params: parameters,
       headers: headers,
     });
   }
-  static post(model_url, body) {
-    return axios.post(API_URL + model_url, body);
+  static async  post(model_url, body) {
+    const token = await Storage.getData("token");
+    const headers = {};
+    if (token) {
+      headers["Authorization"] = token;
+    }
+    return axios.post(API_URL + model_url, body, {
+      headers: headers,
+    });
   }
 }

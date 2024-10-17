@@ -88,6 +88,7 @@ const DailyCalendarView = ({ selectedDate, setSelectedDate, events }) => {
     setSelectedDate(
       new Date(selectedDate.setDate(selectedDate.getDate() + days))
     );
+    console.log(selectedDate.setDate(selectedDate.getDate() + days));
   }
   return (
     <ScrollView style={styles.container}>

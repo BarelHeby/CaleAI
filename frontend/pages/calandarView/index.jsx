@@ -9,7 +9,16 @@ import AddModal from "../activities/add/AddModal";
 import routes from "../../assets/routes";
 import User from "../../models/User";
 import { CommonActions } from "@react-navigation/native";
+import Manager from "../../services/manager";
 export default function CalandarView({ navigation }) {
+
+  async function changeDate(date) {
+    setSelected(new Date(date.dateString))
+    console.log("Selected date", date.dateString);
+    const resp = await Manager.get("event/",{"date" : date} );
+    console.log("Response", resp);
+  }
+
   const today = new Date();
   const [selected, setSelected] = useState(today);
   // const [showSideBar, setShowSideBar] = useState(false);
@@ -65,7 +74,7 @@ export default function CalandarView({ navigation }) {
               selectedColor: "blue",
             },
           }}
-          onDayPress={(day) => setSelected(new Date(day.dateString))}
+          onDayPress={(day) => changeDate(day)}
           onMonthChange={(month) => {
             console.log("month changed", month);
           }}

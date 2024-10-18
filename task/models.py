@@ -20,6 +20,21 @@ class Task(models.Model):
 
     def __str__(self):
         return str(self.id)
+    
+    def to_json(self):
+        return {
+            "user_id": self.user_id.to_json(),
+            "type_id": self.type_id.to_json(),
+            "id": self.id,
+            "name": self.name,
+            "from_time": self.from_time,
+            "to_time": self.to_time,
+            "frequency": self.frequency,
+            "duration": self.duration,
+            "is_morning": self.is_morning,
+            "is_noon": self.is_noon,
+            "is_evening": self.is_evening
+    }
 
     # USERNAME_FIELD = 'id'
     # REQUIRED_FIELDS = []

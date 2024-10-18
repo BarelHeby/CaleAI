@@ -15,6 +15,15 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{str(self.task_id)} on {self.date} from {self.from_time} to {self.to_time}"
+    
+    def to_json(self):
+        return {
+            "task_id": self.task_id.to_json(),
+            "from_time": self.from_time,
+            "to_time": self.to_time,
+            "is_constant": self.is_constant,
+            "date": self.date
+    }
 
 
     # USERNAME_FIELD = 'id'

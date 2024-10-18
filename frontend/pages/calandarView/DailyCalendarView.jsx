@@ -1,4 +1,5 @@
 import React from "react";
+import { ActivityIndicator } from "react-native";
 import {
   View,
   Text,
@@ -30,13 +31,13 @@ const Event = ({ event }) => {
     >
       {/* <Text style={{ fontSize: 15 }}>{showEdit.valueOf().toString()}</Text> */}
       <TaskEdit show={showEdit} setShow={setShowEdit} task={event} />
-      <Text style={{ fontSize: 15 }}>{formatTime(event.startTime)}</Text>
+      <Text style={{ fontSize: 15 }}>{event.from_time}</Text>
       <TouchableOpacity onPress={() => setShowEdit((prev) => !prev)}>
         <View
           style={[
             styles.event,
             {
-              backgroundColor: Activities[event.category].color,
+              backgroundColor: event.task?.type_id?.color,
               flexDirection: "row",
               width: "100%",
               overflow: "hidden",
@@ -48,17 +49,17 @@ const Event = ({ event }) => {
           ]}
         >
           <Text style={{ fontSize: 30, marginEnd: 10, textAlign: "center" }}>
-            {Activities[event.category].emoji}
+            {Activities[event.task.type_id.name].emoji}
           </Text>
           <View style={{ width: "70%", overflow: "hidden" }}>
             <Text style={{ fontSize: 17, fontWeight: "bold" }}>
-              {event.name}
+              {event.task.name}
             </Text>
-            <Text style={{ fontSize: 15 }}>{event.description}</Text>
+            <Text style={{ fontSize: 15 }}></Text>
           </View>
         </View>
       </TouchableOpacity>
-      <Text style={{ fontSize: 15 }}>{formatTime(event.endTime)}</Text>
+      <Text style={{ fontSize: 15 }}>{event.to_time}</Text>
     </View>
   );
 };
@@ -77,7 +78,7 @@ let monthNames = [
   "December",
 ];
 
-const DailyCalendarView = ({ selectedDate, setSelectedDate, events }) => {
+const DailyCalendarView = ({ selectedDate, setSelectedDate, events, isLoading }) => {
   const dateString =
     selectedDate.getDate() +
     " " +
@@ -123,6 +124,9 @@ const DailyCalendarView = ({ selectedDate, setSelectedDate, events }) => {
           onPress={() => changeDate(1)}
         />
       </View>
+
+
+      {isLoading && <ActivityIndicator size="Large" color={Colors.primary} />}
       {events.map((event, index) => (
         <Event key={index} event={event} />
       ))}

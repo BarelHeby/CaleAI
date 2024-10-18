@@ -10,13 +10,17 @@ import routes from "../../assets/routes";
 import User from "../../models/User";
 import { CommonActions } from "@react-navigation/native";
 import Manager from "../../services/manager";
+import Event from "../../models/Event";
 export default function CalandarView({ navigation }) {
 
+  const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
   async function changeDate(date) {
     setSelected(new Date(date.dateString))
-    console.log("Selected date", date.dateString);
-    const resp = await Manager.get("event/",{"date" : date} );
-    console.log("Response", resp);
+    setIsLoading(true);
+    const resp = await Event.getEvents(date.dateString);
+    setEvents(resp);
+    setIsLoading(false);
   }
 
   const today = new Date();
@@ -90,6 +94,7 @@ export default function CalandarView({ navigation }) {
         events={events}
         selectedDate={selected}
         setSelectedDate={setSelected}
+        isLoading={isLoading}
       />
     </View>
   );
@@ -103,16 +108,16 @@ let categories = [
   "clean",
   "other",
 ];
-const events = Array.from({ length: 10 }, (_, i) => {
-  let startTime = new Date();
-  let endTime = new Date();
-  endTime.setDate(startTime.getDate() + 1);
+// const events = Array.from({ length: 10 }, (_, i) => {
+//   let startTime = new Date();
+//   let endTime = new Date();
+//   endTime.setDate(startTime.getDate() + 1);
 
-  return {
-    startTime: startTime,
-    endTime: endTime,
-    name: `${categories[i % categories.length]} Name`,
-    description: `This is the summary for event ${i + 1}`,
-    category: categories[i % categories.length], // Cycle through categories
-  };
-});
+//   return {
+//     startTime: startTime,
+//     endTime: endTime,
+//     name: `${categories[i % categories.length]} Name`,
+//     description: `This is the summary for event ${i + 1}`,
+//     category: categories[i % categories.length], // Cycle through categories
+//   };
+// });

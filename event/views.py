@@ -10,7 +10,7 @@ from rest_framework.authtoken.models import Token
 import secrets
 import threading
 from users.models import User
-
+from django.http.response import JsonResponse
 TOKEN_LENGTH = 256
 
 
@@ -20,13 +20,10 @@ class EventView(APIView):
         token = request.META.get('HTTP_AUTHORIZATION')
         user = User.objects.get(token=token)
         print(date)
-        # if date:
-        #     queryset = Event.objects.filter(date=date)
-        #     serializer = EventSerializer(queryset, many=True)
-        #     return Response(serializer.data)
-        # queryset = Event.objects.all()
-        # serializer = EventSerializer(queryset, many=True)
-        return Response("get request")
+        events = Event.objects.filter(date=date, user_id=user).order_by('from_time')
+        events = [event.to_json() for event in events]
+        print(events)
+        return JsonResponse (events, safe=False)
 
     def post(self, request):
         data = request.date

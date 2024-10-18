@@ -24,3 +24,13 @@ class User(models.Model):
 
     def get(token):
         return User.objects.get(token=token)
+    
+    def to_json(self):
+        return {
+            "id": self.id,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "morning_start_time": self.morning_start_time,
+            "day_end_time": self.day_end_time,
+            "email": self.email,
+        }

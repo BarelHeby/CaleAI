@@ -9,6 +9,13 @@ class TaskType(models.Model):
 
     def __str__(self):
         return self.id
+    
+    def to_json(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "color": self.color
+    }
 
     # USERNAME_FIELD = 'id'
     # REQUIRED_FIELDS = []

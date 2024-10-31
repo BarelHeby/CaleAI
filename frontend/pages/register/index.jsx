@@ -145,7 +145,7 @@ export default function Register({ navigation }) {
           secureTextEntry
         /> */}
       </View>
-      <View style={{ marginBottom: "auto" }}>
+      {/* <View style={{ marginBottom: "auto" }}>
         <Text
           style={{
             fontSize: 19,
@@ -190,7 +190,7 @@ export default function Register({ navigation }) {
             if you dont have calendar it's fine
           </Text>
         </View>
-      </View>
+      </View> */}
       <View style={{ marginBottom: "auto", marginTop: "auto" }}>
         <Button text={"Register"} onPress={handleSubmit} />
       </View>

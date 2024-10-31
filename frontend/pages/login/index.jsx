@@ -73,7 +73,7 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
       </View>
       <Button text={"Login"} onPress={onSubmit} disabled={loading} />
-      <Text style={styles.small}>Or, login with ...</Text>
+      {/* <Text style={styles.small}>Or, login with ...</Text>
       <View
         style={{
           flexDirection: "row",
@@ -93,8 +93,8 @@ export default function Login({ navigation }) {
             "https://1000logos.net/wp-content/uploads/2016/10/Apple-Logo.png"
           }
         />
-      </View>
-      <View style={{ marginStart: "auto", marginEnd: "auto" }}>
+      </View> */}
+      <View style={{ marginStart: "auto", marginEnd: "auto",marginTop:40 }}>
         <Text>Don't have an account? </Text>
         <TouchableOpacity
           style={{ marginStart: "auto", marginEnd: "auto", marginTop: 1 }}

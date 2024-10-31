@@ -7,14 +7,15 @@ import calendar
 from event.models import Event
 @csrf_exempt
 def generate(request):
-    user_id = "1"  # Get the current user
+    user_id = "3"  # Get the current user
     start_date = datetime.now()  # Example start date
 
     # Get the last day of the current month
     last_day = calendar.monthrange(start_date.year, start_date.month)[1]
-
+    # last_day = datetime(2024, 12, 31)
     # Set end_date as the last day of the current month with the time set to 20:00
-    end_date = datetime(start_date.year, start_date.month, last_day, 20, 0)
+    # end_date = datetime(start_date.year, start_date.month, last_day, 20, 0)
+    end_date = datetime(2024, 12, 31, 20, 0)
     scheduler = AStarScheduler(user_id, start_date, end_date)
     events = scheduler.schedule()
 

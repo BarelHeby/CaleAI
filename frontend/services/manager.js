@@ -6,13 +6,14 @@ import Storage from "../models/storage";
 // import react-native-doten
 // const env = configDotenv();
 // import { API_URL } from "react-native-dotenv";
-const API_URL = "http://10.100.102.22:8000/";
+const API_URL = "http://10.0.0.13:8000/";
 export default class Manager {
-  static get(model_url, parameters, token = null) {
+  static async get(model_url, parameters, token = null) {
     const headers = {};
-    const token_real = Storage.getData("token");
+    const token_real = await Storage.getData("token");
+    console.log("token_real",token_real)
     if (token_real) {
-      headers["Authorization"] = token_real;
+      headers["Authorization"] =token_real;
     }
     return axios.get(API_URL + model_url, {
       params: parameters,

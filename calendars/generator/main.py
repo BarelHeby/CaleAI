@@ -7,7 +7,8 @@ import calendar
 from event.models import Event
 @csrf_exempt
 def generate(request):
-    user_id = "3"  # Get the current user
+    # TODO - Get the user_id from the request
+    user_id = "4"  # Get the current user
     start_date = datetime.now()  # Example start date
 
     # Get the last day of the current month

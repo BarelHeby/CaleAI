@@ -60,7 +60,7 @@ const Event = ({ event,refreshEvents }) => {
             <Text style={{ fontSize: 17, fontWeight: "bold" }}>
               {activity?activity.label:event.task.type_id.name}
             </Text>
-            <Text style={{ fontSize: 15 }}>{event.task.frequency}</Text>
+            <Text style={{ fontSize: 15 }}>{event.is_constant?"Constant Event":event.task.frequency}</Text>
           </View>
         </View>
       </TouchableOpacity>

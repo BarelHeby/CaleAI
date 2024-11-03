@@ -113,7 +113,7 @@ class AStarScheduler:
         while current_date <= self.end_date:
             # Skip non-business days (Friday and Saturday)
             day_of_week = current_date.weekday()
-            if day_of_week > 4:  # Skips Friday (5) and Saturday (6)
+            if day_of_week not in [0,1,2,3,6]:  # Skips Friday (5) and Saturday (6)
                 current_date += timedelta(days=1)
                 current_date = datetime.combine(current_date, time(8, 0))  # Start next business day at 8:00 AM
                 continue
@@ -156,17 +156,28 @@ class AStarScheduler:
             current_date += timedelta(days=1)
             current_date = datetime.combine(current_date, time(8, 0))  # Start the next day at 8:00 AM
 
-        business_days = [0, 1, 2, 3, 4]
+        business_days = [0,1,2,3,6]
         business_start_time = time(8, 0)
         business_end_time = time(18, 0) 
+        scheduled_weeks = {}
+
+        # Weekly scheduling
         for task in tasks:
             if task.frequency != "weekly":
                 continue
 
-            # Start scheduling from self.start_date
             current_date = self.start_date
 
             while current_date <= self.end_date:
+                # Determine the start of the current week (Sunday)
+                week_start = current_date - timedelta(days=current_date.weekday())
+                week_key = (task.id, week_start.date())  # Unique key for the task-week pair
+
+                # Skip scheduling if this task is already scheduled for this week
+                if week_key in scheduled_weeks:
+                    current_date += timedelta(weeks=1)
+                    continue
+
                 # Shuffle business days to randomize assignment within the business week
                 day_offsets = list(business_days)
                 random.shuffle(day_offsets)
@@ -174,10 +185,10 @@ class AStarScheduler:
                 # Iterate over business days in randomized order
                 task_scheduled = False
                 for day_offset in day_offsets:
-                    candidate_date = current_date + timedelta(days=day_offset - current_date.weekday())
+                    candidate_date = current_date + timedelta(days=(day_offset - current_date.weekday()) % 7)
 
-                    # Ensure the candidate date is within the scheduling range
-                    if candidate_date < self.start_date or candidate_date > self.end_date:
+                    # Ensure the candidate date is within the scheduling range and only on defined business days
+                    if candidate_date < self.start_date or candidate_date > self.end_date or candidate_date.weekday() not in business_days:
                         continue
 
                     # Check available time slots within the day
@@ -196,8 +207,9 @@ class AStarScheduler:
                         )
 
                         # Check for conflicts
-                        if not self.is_conflict(next_event, events):
+                        if not is_conflict(next_event, events):
                             events.append(next_event)  # Add event if no conflict
+                            scheduled_weeks[week_key] = True  # Mark the task as scheduled for this week
                             task_scheduled = True
                             break
 

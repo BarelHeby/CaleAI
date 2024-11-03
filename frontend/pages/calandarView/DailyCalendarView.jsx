@@ -22,6 +22,7 @@ const Event = ({ event,refreshEvents }) => {
     return `${hours}:${minutes}`;
   }
   const activity =Activities[event.task.type_id.name];
+  console.log("eventtt",event)
   return (
     <View
       style={{
@@ -59,7 +60,7 @@ const Event = ({ event,refreshEvents }) => {
             <Text style={{ fontSize: 17, fontWeight: "bold" }}>
               {activity?activity.label:event.task.type_id.name}
             </Text>
-            <Text style={{ fontSize: 15 }}></Text>
+            <Text style={{ fontSize: 15 }}>{event.task.frequency}</Text>
           </View>
         </View>
       </TouchableOpacity>

@@ -8,6 +8,9 @@ export default routes = {
   calandarView: {
     name: "calandarView",
   },
+  taskManager: {
+    name: "taskManager",
+  },
   // monthlyCalendarView: {
   //   name: "monthlyCalendarView",
   // },

@@ -207,7 +207,7 @@ class AStarScheduler:
                         )
 
                         # Check for conflicts
-                        if not is_conflict(next_event, events):
+                        if not self.is_conflict(next_event, events):
                             events.append(next_event)  # Add event if no conflict
                             scheduled_weeks[week_key] = True  # Mark the task as scheduled for this week
                             task_scheduled = True

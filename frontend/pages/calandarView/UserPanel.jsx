@@ -6,6 +6,7 @@ import User from "../../models/User";
 import routes from "../../assets/routes";
 import { resetStackAndGoTo } from "../../models/Stack";
 import robot from "../../assets/images/robot.png";
+import logout from "../../assets/images/logout.png";
 export default function UserPanel({ navigation }) {
   return (
     <View>
@@ -50,14 +51,11 @@ export default function UserPanel({ navigation }) {
           }}
         >
           <Image
-            width={50}
-            height={50}
-            source={{
-              uri: "https://cdn.iconscout.com/icon/free/png-256/free-avatar-372-456324.png",
-            }}
+            size={50}
+            source={logout}
             style={{
-              borderRadius: 25,
-              borderWidth: 1,
+              width: 50,
+              height: 50,
             }}
           />
         </TouchableOpacity>

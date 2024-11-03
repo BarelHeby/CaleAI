@@ -13,7 +13,7 @@ import Colors from "../../assets/Colors";
 import Activities from "../../assets/Activities";
 import TaskEdit from "./components/TaskEdit";
 import { act } from "react";
-const Event = ({ event }) => {
+const Event = ({ event,refreshEvents }) => {
   const [showEdit, setShowEdit] = React.useState(false);
 
   function formatTime(date) {
@@ -21,14 +21,7 @@ const Event = ({ event }) => {
     let minutes = date.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
   }
-  console.log(event);
-
-  // console.log(event.task.type_id.name);
-
-  const activity = Activities[ Object.keys(Activities).find(
-    (activity) => Activities[activity].label === event.task.type_id.name
-  )];
-
+  const activity =Activities[event.task.type_id.name];
   return (
     <View
       style={{
@@ -40,7 +33,7 @@ const Event = ({ event }) => {
       }}
     >
       {/* <Text style={{ fontSize: 15 }}>{showEdit.valueOf().toString()}</Text> */}
-      <TaskEdit name ={activity.label} emoji ={activity.emoji} category={event.name} show={showEdit} setShow={setShowEdit} task={event} />
+      <TaskEdit name ={activity.label} emoji ={activity.emoji} category={event.name} show={showEdit} setShow={setShowEdit} task={event} refreshEvents = {refreshEvents} />
       <Text style={{ fontSize: 15 }}>{event.from_time}</Text>
       <TouchableOpacity onPress={() => setShowEdit((prev) => !prev)}>
         <View
@@ -59,6 +52,7 @@ const Event = ({ event }) => {
           ]}
         >
           <Text style={{ fontSize: 30, marginEnd: 10, textAlign: "center" }}>
+            
             {activity?activity.emoji:"📅"}
           </Text>
           <View style={{ width: "70%", overflow: "hidden" }}>
@@ -88,7 +82,7 @@ let monthNames = [
   "December",
 ];
 
-const DailyCalendarView = ({ selectedDate, setSelectedDate, events, isLoading }) => {
+const DailyCalendarView = ({ selectedDate, setSelectedDate, events, isLoading,refreshEvents }) => {
   const dateString =
     selectedDate.getDate() +
     " " +
@@ -99,7 +93,6 @@ const DailyCalendarView = ({ selectedDate, setSelectedDate, events, isLoading })
     setSelectedDate(
       new Date(selectedDate.setDate(selectedDate.getDate() + days))
     );
-    console.log(selectedDate.setDate(selectedDate.getDate() + days));
   }
   return (
     <ScrollView style={styles.container}>
@@ -138,7 +131,7 @@ const DailyCalendarView = ({ selectedDate, setSelectedDate, events, isLoading })
 
       {isLoading && <ActivityIndicator style={{marginTop:30}} size="Large" color={Colors.primary} />}
       {events.map((event, index) => (
-        <Event key={index} event={event} />
+        <Event key={index} event={event} refreshEvents = {refreshEvents} />
       ))}
     </ScrollView>
   );

@@ -5,7 +5,7 @@ import { Picker } from "react-native-wheel-pick";
 import styles from "./styles";
 import { MaterialIcons } from "react-native-vector-icons";
 
-export default function CategoryRow({ task, openExetntion, setOpenExetntion }) {
+export default function CategoryRow({ task, openExetntion, setOpenExetntion, updateTask }) {
   return (
     <View style={{ width: "100%", ...styles.row }}>
       <MaterialIcons
@@ -23,8 +23,8 @@ export default function CategoryRow({ task, openExetntion, setOpenExetntion }) {
             )
           }
         >
-          <Text style={styles.iconText}>{Activities[task.category].emoji}</Text>
-          <Text style={styles.text}>{task.category}</Text>
+          <Text style={styles.iconText}>{Activities[task.task.type_id.name].emoji}</Text>
+          <Text style={styles.text}>{Activities[task.task.type_id.name].label}</Text>
         </TouchableOpacity>
         <Picker
           style={{
@@ -37,8 +37,10 @@ export default function CategoryRow({ task, openExetntion, setOpenExetntion }) {
           selectedValue={task.category}
           pickerData={Object.keys(Activities)}
           onValueChange={(value) => {
-            // TODO
-            console.log(value);
+            const task_db = task.task;
+            task_db.type_id.name = value;
+            updateTask("task", task_db);
+            setOpenExetntion(null);
           }}
         />
       </View>

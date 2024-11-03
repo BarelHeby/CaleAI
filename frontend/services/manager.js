@@ -11,7 +11,6 @@ export default class Manager {
   static async get(model_url, parameters, token = null) {
     const headers = {};
     const token_real = await Storage.getData("token");
-    console.log("token_real",token_real)
     if (token_real) {
       headers["Authorization"] =token_real;
     }
@@ -28,6 +27,31 @@ export default class Manager {
     }
     return axios.post(API_URL + model_url, body, {
       headers: headers,
+    });
+  }
+
+  static async put(model_url, body) {
+    const token = await Storage.getData("token");
+    const headers = {};
+    if (token) {
+      headers["Authorization"] = token;
+    }
+    return axios.put(API_URL + model_url, body, {
+      headers: headers,
+    });
+  }
+
+  static async delete(model_url, body) {
+    const token = await Storage.getData("token");
+    const headers = {};
+    if (token) {
+      headers["Authorization"] = token;
+    }
+    return axios.delete(API_URL + model_url, {
+
+      data: body,
+      headers: headers,
+      
     });
   }
 }

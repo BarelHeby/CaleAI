@@ -17,14 +17,11 @@ export default function CalandarView({ navigation }) {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [selected, setSelected] = useState(new Date());
-  // async function changeDate(date) {
-  //   setSelected(new Date(date.dateString))
-  //   setIsLoading(true);
-  //   const resp = await Event.getEvents(date.dateString);
-  //   setEvents(resp);
-  //   setIsLoading(false);
-  // }
+  const [refreshIndex, setRefreshIndex] = useState(0);
 
+  function refreshEvents() {
+    setRefreshIndex((prev) => prev + 1);
+  }
   useEffect(() => {
     async function getEvents() {
       console.log("Getting events for date", selected);
@@ -35,7 +32,7 @@ export default function CalandarView({ navigation }) {
     }
     if (selected)
     getEvents();
-  }, [selected]);
+  }, [selected,refreshIndex]);
   // const [showSideBar, setShowSideBar] = useState(false);
   useEffect(() => {
     async function checkUser() {
@@ -106,6 +103,7 @@ export default function CalandarView({ navigation }) {
         selectedDate={selected}
         setSelectedDate={setSelected}
         isLoading={isLoading}
+        refreshEvents={refreshEvents}
       />
     </View>
   );

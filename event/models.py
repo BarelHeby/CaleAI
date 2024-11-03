@@ -18,6 +18,7 @@ class Event(models.Model):
     
     def to_json(self):
         return {
+            "id": self.id,
             "task_id": self.task_id.to_json(),
             "from_time": self.from_time,
             "to_time": self.to_time,

@@ -4,7 +4,7 @@ const activities_options = Object.keys(Activities).map((key) => {
     type: "Button",
     label: Activities[key].label,
     emoji: Activities[key].emoji,
-    value: Activities[key].label,
+    value: key,
     page: "category"
   };
 });

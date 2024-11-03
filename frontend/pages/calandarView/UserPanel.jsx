@@ -45,14 +45,13 @@ export default function UserPanel({ navigation }) {
         </TouchableOpacity>
         <Text style={{ fontSize: 20, marginStart: 10 }}>CaleAI</Text>
         <TouchableOpacity
-          onPress={async () => {
-            await User.logout();
-            resetStackAndGoTo(routes.welcome.name, navigation);
-          }}
+          onPress={()=>navigation.navigate(routes.taskManager)}
         >
+          
           <Image
-            size={50}
-            source={logout}
+            width={50}
+            height={50}
+            source={{uri: "https://cdn.iconscout.com/icon/free/png-256/free-avatar-372-456324.png"}}
             style={{
               width: 50,
               height: 50,

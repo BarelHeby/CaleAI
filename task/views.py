@@ -14,9 +14,14 @@ class TaskView(APIView):
         Retrieve a task based on its token.
         """
         try:
-            queryset = Task.objects.get(token=token)
-            serializer = TaskSerializer(queryset)
-            return Response(serializer.data)
+            token = request.META.get('HTTP_AUTHORIZATION')
+            user = User.objects.get(token=token)
+            tasks = Task.objects.filter(user_id=user).order_by('type_id')
+            tasks = [task.to_json() for task in tasks]
+            print(tasks)
+            return Response(tasks)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=404)
         except Task.DoesNotExist:
             return Response({"error": "Task not found"}, status=404)
 
@@ -52,3 +57,15 @@ class TaskView(APIView):
             task_1.save()
         generate(user.id)
         return Response({"token": token}, status=201)
+    
+    def delete(self, request):
+        """
+        Delete a task based on its token.
+        """
+        data = request.data
+        token = request.META.get('HTTP_AUTHORIZATION')
+        user = User.objects.get(token=token)
+        task = Task.objects.get(id=data["id"], user_id=user)
+        task.delete()
+        generate(user.id)
+        return Response(status=204)

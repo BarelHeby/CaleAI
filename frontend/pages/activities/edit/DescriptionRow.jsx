@@ -18,7 +18,11 @@ export default function DescriptionRow({ task }) {
           value={task.description}
           style={styles.textBoxText}
           //   TODO onChangeText
-          onChangeText={(t) => console.log(t)}
+          onChangeText={(t) => 
+          {
+            updateTask("description", t);
+          }
+          }
         />
       </View>
       {/* <Text>DescriptionRow</Text> */}

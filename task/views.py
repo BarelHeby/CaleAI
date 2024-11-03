@@ -4,6 +4,7 @@ from .serializers import TaskSerializer
 from rest_framework.views import APIView
 from users.models import User
 from task_type.models import TaskType
+from calendars.generator.main import generate
 TOKEN_LENGTH = 256
 
 class TaskView(APIView):
@@ -33,9 +34,6 @@ class TaskView(APIView):
         """
         data = request.data["tasks"]
         token = request.META.get('HTTP_AUTHORIZATION')
-        # token="1"
-        print(data)
-        print(token)
         user = User.objects.get(token=token)
         for task in data:
             task_type = TaskType.objects.get(name=task['category'])
@@ -52,5 +50,5 @@ class TaskView(APIView):
                 is_evening= task["time"]=="Evening" ,
             )
             task_1.save()
-        # token = secrets.token_urlsafe(TOKEN_LENGTH)
+        generate(user.id)
         return Response({"token": token}, status=201)

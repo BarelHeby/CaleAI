@@ -4,7 +4,7 @@ import Colors from "../../../assets/Colors";
 import Button from "../../../components/Button";
 import Activities from "../../../assets/Activities";
 import EditTask from "../../activities/edit";
-export default function TaskEdit({ task, show, setShow }) {
+export default function TaskEdit({name,emoji,category, task, show, setShow ,refreshEvents}) {
   const [mode, setMode] = React.useState("view");
   if (!show) {
     return <></>;
@@ -12,6 +12,7 @@ export default function TaskEdit({ task, show, setShow }) {
   function close() {
     setMode("view");
     setShow(false);
+    refreshEvents();
   }
   return (
     <Modal
@@ -22,14 +23,20 @@ export default function TaskEdit({ task, show, setShow }) {
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <View style={styles.headerView}>
-            <Text style={styles.header}>{task.name}</Text>
-          </View>
-          <View style={styles.secondaryView}>
+          {/* <View style={styles.headerView}>
+            <Text style={styles.header}>{name}</Text>
+          </View> */}
+          {/* <View style={styles.secondaryView}>
             <Text style={{ fontSize: 20, marginEnd: 10, textAlign: "center" }}>
-              {Activities[task.category].emoji}
+              {emoji}
             </Text>
-            <Text>{task.category}</Text>
+            <Text>{Activities[task.task.type_id.name]?.label}</Text>
+          </View> */}
+          <View style={styles.headerView}>
+            <Text style={{ fontSize: 20, marginEnd: 10, textAlign: "center" }}>
+              {emoji}
+            </Text>
+            <Text>{Activities[task.task.type_id.name]?.label}</Text>
           </View>
 
           <View
@@ -58,7 +65,7 @@ export default function TaskEdit({ task, show, setShow }) {
               />
             </View>
           </View>
-          {mode === "edit" && <EditTask task={task} />}
+          {mode === "edit" && <EditTask task={task} emoji={emoji} closeModal = {close} />}
         </View>
       </View>
     </Modal>

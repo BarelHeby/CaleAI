@@ -12,13 +12,16 @@ import { AntDesign } from "react-native-vector-icons";
 import Colors from "../../assets/Colors";
 import Activities from "../../assets/Activities";
 import TaskEdit from "./components/TaskEdit";
-const Event = ({ event }) => {
+import { act } from "react";
+const Event = ({ event,refreshEvents }) => {
   const [showEdit, setShowEdit] = React.useState(false);
+
   function formatTime(date) {
     let hours = date.getHours().toString().padStart(2, "0");
     let minutes = date.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
   }
+  const activity =Activities[event.task.type_id.name];
   return (
     <View
       style={{
@@ -30,7 +33,7 @@ const Event = ({ event }) => {
       }}
     >
       {/* <Text style={{ fontSize: 15 }}>{showEdit.valueOf().toString()}</Text> */}
-      <TaskEdit show={showEdit} setShow={setShowEdit} task={event} />
+      <TaskEdit name ={activity.label} emoji ={activity.emoji} category={event.name} show={showEdit} setShow={setShowEdit} task={event} refreshEvents = {refreshEvents} />
       <Text style={{ fontSize: 15 }}>{event.from_time}</Text>
       <TouchableOpacity onPress={() => setShowEdit((prev) => !prev)}>
         <View
@@ -49,11 +52,12 @@ const Event = ({ event }) => {
           ]}
         >
           <Text style={{ fontSize: 30, marginEnd: 10, textAlign: "center" }}>
-            {Activities[event.task.type_id.name].emoji}
+            
+            {activity?activity.emoji:"📅"}
           </Text>
           <View style={{ width: "70%", overflow: "hidden" }}>
             <Text style={{ fontSize: 17, fontWeight: "bold" }}>
-              {event.task.name}
+              {activity?activity.label:event.task.type_id.name}
             </Text>
             <Text style={{ fontSize: 15 }}></Text>
           </View>
@@ -78,7 +82,7 @@ let monthNames = [
   "December",
 ];
 
-const DailyCalendarView = ({ selectedDate, setSelectedDate, events, isLoading }) => {
+const DailyCalendarView = ({ selectedDate, setSelectedDate, events, isLoading,refreshEvents }) => {
   const dateString =
     selectedDate.getDate() +
     " " +
@@ -89,7 +93,6 @@ const DailyCalendarView = ({ selectedDate, setSelectedDate, events, isLoading })
     setSelectedDate(
       new Date(selectedDate.setDate(selectedDate.getDate() + days))
     );
-    console.log(selectedDate.setDate(selectedDate.getDate() + days));
   }
   return (
     <ScrollView style={styles.container}>
@@ -126,9 +129,9 @@ const DailyCalendarView = ({ selectedDate, setSelectedDate, events, isLoading })
       </View>
 
 
-      {isLoading && <ActivityIndicator size="Large" color={Colors.primary} />}
+      {isLoading && <ActivityIndicator style={{marginTop:30}} size="Large" color={Colors.primary} />}
       {events.map((event, index) => (
-        <Event key={index} event={event} />
+        <Event key={index} event={event} refreshEvents = {refreshEvents} />
       ))}
     </ScrollView>
   );

@@ -12,19 +12,27 @@ import { CommonActions } from "@react-navigation/native";
 import Manager from "../../services/manager";
 import Event from "../../models/Event";
 export default function CalandarView({ navigation }) {
-
+  
+  const today = new Date();
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-  async function changeDate(date) {
-    setSelected(new Date(date.dateString))
-    setIsLoading(true);
-    const resp = await Event.getEvents(date.dateString);
-    setEvents(resp);
-    setIsLoading(false);
-  }
+  const [selected, setSelected] = useState(new Date());
+  const [refreshIndex, setRefreshIndex] = useState(0);
 
-  const today = new Date();
-  const [selected, setSelected] = useState(today);
+  function refreshEvents() {
+    setRefreshIndex((prev) => prev + 1);
+  }
+  useEffect(() => {
+    async function getEvents() {
+      console.log("Getting events for date", selected);
+      setIsLoading(true);
+      const resp = await Event.getEvents(selected.toISOString().split("T")[0]);
+      setEvents(resp);
+      setIsLoading(false);
+    }
+    if (selected)
+    getEvents();
+  }, [selected,refreshIndex]);
   // const [showSideBar, setShowSideBar] = useState(false);
   useEffect(() => {
     async function checkUser() {
@@ -49,11 +57,6 @@ export default function CalandarView({ navigation }) {
         flex: 1,
       }}
     >
-      {/* <SidePanel
-        show={showSideBar}
-        setShow={setShowSideBar}
-        navigation={navigation}
-      /> */}
       <UserPanel navigation={navigation} />
       <View
         style={{
@@ -78,7 +81,7 @@ export default function CalandarView({ navigation }) {
               selectedColor: "blue",
             },
           }}
-          onDayPress={(day) => changeDate(day)}
+          onDayPress={(date) => setSelected(new Date(date.dateString))}
           onMonthChange={(month) => {
             console.log("month changed", month);
           }}
@@ -95,6 +98,7 @@ export default function CalandarView({ navigation }) {
         selectedDate={selected}
         setSelectedDate={setSelected}
         isLoading={isLoading}
+        refreshEvents={refreshEvents}
       />
     </View>
   );

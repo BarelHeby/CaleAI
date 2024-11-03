@@ -10,8 +10,9 @@ export default function TimeRow({
   openExetntion,
   setOpenExetntion,
   isStartTime,
+  updateTask,
 }) {
-  const type = isStartTime ? "startTime" : "endTime";
+  const type = isStartTime ? "from_time" : "to_time";
   return (
     <View style={{ width: "100%", ...styles.row }}>
       <AntDesign
@@ -36,7 +37,7 @@ export default function TimeRow({
             }
           >
             <Text style={styles.iconText}>
-              {task[type].toISOString().replace("T", " ").split(" ")[0]}
+              {task["date"]}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -47,31 +48,24 @@ export default function TimeRow({
             }
           >
             <Text style={styles.iconText}>
-              {task[type]
-                .toISOString()
-                .replace("T", " ")
-                .split(" ")[1]
-                .split(".")[0]
-                .slice(0, -3)}
+              {task[type]}
             </Text>
           </TouchableOpacity>
         </View>
         <CalendarPick
           show={openExetntion === type + "_date"}
-          currentDate={task[type]}
-          onDayPress={(day) => console.log(day)}
+          currentDate={task["date"]}
+          onDayPress={(day) => 
+          {
+            updateTask("date", day.dateString), setOpenExetntion(null)
+          }
+          }
         />
         <HoursPicker
           show={openExetntion === type + "_time"}
-          currentHour={
-            task[type]
-              .toISOString()
-              .replace("T", " ")
-              .split(" ")[1]
-              .split(".")[0]
-              .slice(0, -4) + "0"
-          }
+          currentHour={task[type]}
           isButtonHidden={true}
+          onChange={(hour) => {updateTask(type, hour), setOpenExetntion(null)}}
         />
       </View>
     </View>

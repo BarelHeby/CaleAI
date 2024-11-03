@@ -8,51 +8,83 @@ import TimeRow from "./TimeRow";
 import NameRow from "./NameRow";
 import DescriptionRow from "./DescriptionRow";
 import Colors from "../../../assets/Colors";
-// const task = new Task(
-//   new Date().toISOString(),
-//   "Read Harry Poter",
-//   "read",
-//   "my desctiption",
-//   new Date(),
-//   new Date(),
-//   "icon"
-// );
-export default function EditTask({ task }) {
+import Event from "../../../models/Event";
+
+export default function EditTask({ task ,closeModal}) {
   const [openExetntion, setOpenExetntion] = React.useState(false);
+  const [taskData, setTaskData] = React.useState(task);
+  function updateTask(key, value) {
+    setTaskData((prev) => {
+      return { ...prev, [key]: value };
+    });
+  }
+
+  async function saveTask() {
+    const resp = await Event.updateEvent(taskData);
+    if (resp === 200){
+      alert("Event Has Been Updated")
+      closeModal()
+    }
+    else{
+      alert("Error Updating Event")
+    }
+  }
+
+  async function delete_event() {
+    const resp  = await Event.delete(taskData.id);
+    if (resp === 200){
+      alert("Event Has Been Deleted")
+      closeModal()
+    }
+    else{
+    
+      alert("Error Deleting Event")
+    }
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.seperator}></Text>
       <ScrollView style={styles.fullWidth}>
-        <NameRow task={task} />
-        <CategoryRow
-          task={task}
+        <NameRow task={taskData} updateTask={updateTask} />
+        {/* <CategoryRow
+          task={taskData}
           openExetntion={openExetntion}
           setOpenExetntion={setOpenExetntion}
-        />
+          updateTask={updateTask}
+        /> */}
         <TimeRow
           isStartTime={true}
-          task={task}
+          task={taskData}
           openExetntion={openExetntion}
           setOpenExetntion={setOpenExetntion}
+          updateTask={updateTask}
         />
         <TimeRow
           isStartTime={false}
-          task={task}
+          task={taskData}
           openExetntion={openExetntion}
           setOpenExetntion={setOpenExetntion}
+          updateTask={updateTask}
         />
-        <DescriptionRow
-          task={task}
+        {/* <DescriptionRow
+          task={taskData}
           openExetntion={openExetntion}
           setOpenExetntion={setOpenExetntion}
-        />
+          updateTask={updateTask}
+        /> */}
         {/* <Text style={styles.seperator}></Text> */}
       </ScrollView>
       <View style={{ justifyContent: "center", padding: 10 }}>
         {/* <Button text={"Dismiss"} style={{ backgroundColor: "red" }} /> */}
         <Button
-          text={"Save"}
+          text={"Make Constant Event"}
           style={{ backgroundColor: Colors.tertiary, color: "black" }}
+          onPress={saveTask}
+        />
+        <Button
+          text={"Delete"}
+          style={{ backgroundColor: "red", color: "white",marginTop:10 }}
+          onPress={delete_event}
         />
       </View>
     </View>

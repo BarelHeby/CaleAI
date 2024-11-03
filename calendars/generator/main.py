@@ -15,7 +15,8 @@ def generate(user_id):
     # end_date = datetime(start_date.year, start_date.month, last_day, 20, 0)
     end_date = datetime(2024, 12, 31, 20, 0)
     scheduler = AStarScheduler(user_id, start_date, end_date)
-    events = scheduler.schedule()
+    constant_events = Event.objects.filter(user_id=user_id, is_constant=True)
+    events = scheduler.schedule(constant_events)
 
     if events:
         # Delete all existing events for the user

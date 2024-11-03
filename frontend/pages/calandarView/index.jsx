@@ -57,11 +57,6 @@ export default function CalandarView({ navigation }) {
         flex: 1,
       }}
     >
-      {/* <SidePanel
-        show={showSideBar}
-        setShow={setShowSideBar}
-        navigation={navigation}
-      /> */}
       <UserPanel navigation={navigation} />
       <View
         style={{

@@ -5,10 +5,7 @@ from django.http import JsonResponse
 from calendars.generator.AStarScheduler import AStarScheduler
 import calendar
 from event.models import Event
-@csrf_exempt
-def generate(request):
-    # TODO - Get the user_id from the request
-    user_id = "4"  # Get the current user
+def generate(user_id):
     start_date = datetime.now()  # Example start date
 
     # Get the last day of the current month

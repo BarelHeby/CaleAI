@@ -23,8 +23,18 @@ Follow these steps to get the project up and running on your local machine:
     ```
 
 1.2 Update const API_URL in manager.js
+    ```
+    pconst API_URL = "http://'YOUR IP':8000/";
+    ```
 
-1.3 Run python manage.py makemigrations and then run python manage.py migrate
+1.3 Run migrations:
+    ```
+    python manage.py makemigrations
+    ```
+    and then run
+    ```
+    python manage.py migrate
+    ```
 
 2. Run the Django server:
 

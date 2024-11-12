@@ -133,3 +133,5 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AUTH_USER_MODEL = 'auth_user.User'
+
+GOOGLE_API_KEY = 'AIzaSyCgf69wsIKd2-vZP7Mnkqzj34AzSdNicOw'

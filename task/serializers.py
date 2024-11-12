@@ -22,7 +22,6 @@ class TaskSerializer(serializers.ModelSerializer):
             to_time=validated_data['to_time'],
             frequency=validated_data.get('frequency', ''),
             duration = validated_data['duration'],
-            is_splittable = validated_data['is_splittable'],
             priority = validated_data['priority'],
             is_morning = validated_data['is_morning'],
             is_noon = validated_data['is_noon'],
@@ -43,7 +42,6 @@ class TaskSerializer(serializers.ModelSerializer):
         instance.to_time = validated_data.get('to_time', instance.to_time)
         instance.frequency = validated_data.get('frequency', instance.frequency)
         instance.duration = validated_data.get('duration', instance.duration)
-        instance.is_splittable = validated_data.get('is_splittable', instance.is_splittable)
         instance.priority = validated_data.get('priority', instance.priority)
         instance.is_morning = validated_data.get('is_morning', instance.is_morning)
         instance.is_noon = validated_data.get('is_noon', instance.is_noon)

@@ -1,5 +1,5 @@
-import { View, Text, Image, ScrollView, Vibration } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import { View, Text, Image, ScrollView, Vibration, TextInput } from "react-native";
+import React, { useEffect, useRef, useState, } from "react";
 import { StyleSheet } from "react-native";
 import robot from "../../assets/images/robot.png";
 import Colors from "../../assets/Colors";
@@ -11,15 +11,10 @@ import ChatButton from "./components/ChatButton";
 import ChatHoursMinutes from "./components/ChatHoursMinutes";
 import { Audio } from "expo-av";
 import Task from "../../models/Task";
+import Chatbot from "../../models/Chatbot";
+
 const counter_tasks = 0
-// chosen_tasks = []
-// const task = {
-//   "category": "",
-//   "frequency": "",
-//   "time": "",
-//   "duration": "",
-//   "split": ""
-// }
+
 const activities_options = Object.keys(Activities).map((key) => {
   return {
     type: "Button",
@@ -29,14 +24,12 @@ const activities_options = Object.keys(Activities).map((key) => {
     page: "category",
   };
 });
-
 function getDefaultTask() {
   return {
     "category": "",
     "frequency": "",
     "time": "",
     "duration": "",
-    "split": ""
   }
 }
 export default function ChatBot({ navigation }) {
@@ -45,7 +38,8 @@ export default function ChatBot({ navigation }) {
   const [botModel, setBotModel] = useState(new BotModel());
   const [chosen_tasks, setChosenTasks] = useState([]);
   const [task, setTask] = useState(getDefaultTask());
-
+  const [text, setText] = useState('');
+  const [inputMode, setInputMode] = useState(false);
   const scrollViewRef = useRef();
   useEffect(() => {
     async function playSound() {
@@ -59,55 +53,19 @@ export default function ChatBot({ navigation }) {
   }, [responseIndex]);
 
   async function onSubmit() {
+
     const resp = await Task.createTasks(chosen_tasks)
-    console.log(resp)
   }
   async function onButtonPress(option,response){
     {
+        if(option.value == "gemini"){
+        setInputMode(true);
+        return;
+      }
       if (option.page) {
-        if (option.page == "category") {
-          setTask((prev) => {
-            return {
-              ...prev,
-              category: option.value,
-            }
-          })
-          // task.category = option.value
-        }
-        if (option.page == "frequency") {
-          setTask((prev) => {
-            return {
-              ...prev,
-              frequency: option.value,
-            }
-          })
-          // task.frequency = option.value
-        }
-        if (option.page == "split") {
-          // setTask((prev) => {
-          //   return {
-          //     ...prev,
-          //     split: option.value,
-          //   }
-          // })
-          const temp = task
-          temp.split = option.value
-          setChosenTasks((prev) => [
-            ...prev,
-            ...[temp]
-          ])
-          setTask(getDefaultTask())
-          // task.split = option.value
-        }
-        if (option.page == "time") {
-          setTask((prev) => {
-            return {
-              ...prev,
-              time: option.value,
-            }
-          })
-          // task.time = option.value
-        }
+        const temp = task
+        temp[option.page] = option.value
+        setTask(temp)
       }
       if (option.successor) {
         setResponses((prev) => [
@@ -117,55 +75,19 @@ export default function ChatBot({ navigation }) {
       }
       setResponseIndex((prev) => prev + 1);
       botModel.addResponse(response.key, option.label);
-      console.log(chosen_tasks)
-      console.log(task)
+
       if (option.value == "generate") {
-        if (chosen_tasks.length === 0) {
-          console.log("no tasks!")
-          setResponses((prev) => [
-            ...prev,
-            ...[{ "bot_label": "You have no tasks to put in the calendar! insert a category for your first task What Category does the task belong to?", "key": "category", "options": activities_options, }, {
-              "bot_label": "How Often do you want to do this task?", "key": "frequency", "options": [
-                { type: "Button", label: "Daily", value: "daily", page: "frequency" },
-                { type: "Button", label: "Weekly", value: "weekly", page: "frequency" },
-                { type: "Button", label: "Monthly", value: "monthly", page: "frequency" },
-              ]
-            },
-            {
-              bot_label: "what time of the day do you wish to do this task?",
-              key: "time",
-              options: [
-                { type: "Button", label: "Morning", value: "Morning", page: "time" },
-                { type: "Button", label: "Noon", value: "Noon", page: "time" },
-                { type: "Button", label: "Evening", value: "Evening", page: "time" },
-              ],
-            },
-            { "bot_label": "How long do you want to spend on this task?", "key": "duration", "options": [{ type: "text-hours-minutes", label: "Set Duration", },] }, {
-              "bot_label": "Is this task can be split into multiple times?", "key": "split", "options": [
-                { type: "Button", label: "Yes", value: "yes", page: "split" },
-                { type: "Button", label: "No", value: "no", page: "split" },
-              ]
-            }, {
-              "bot_label": "Task Added! what next?", "key": "more?", "options": [
-                { type: "Button", label: "Add another task", value: "more" },
-                { type: "Button", label: "Generate New Calendar", value: "generate" },
-              ]
-            }],
-          ]);
+        
+        if(task != getDefaultTask()){
+          console.log("generate part:" , task)
+          const temp = chosen_tasks
+          temp.push(task)
+          setChosenTasks(temp)
         }
-        // console.log(chosen_tasks)
         onSubmit()
-        //                                 here need to call the algorithm with chosen_tasks
       }
       if (option.value == "more") {
-        // counter_tasks += 1
-        // task.id = counter_tasks
-        // console.log(task)
-        // setChosenTasks((prev) => [
-        //   ...prev,
-        //   ...[task]
-        // ])
-        // chosen_tasks.unshift(task)
+ 
         setTask(getDefaultTask())
 
         setResponses((prev) => [
@@ -187,13 +109,8 @@ export default function ChatBot({ navigation }) {
             ],
           },
 
-          { "bot_label": "How long do you want to spend on this task?", "key": "duration", "options": [{ type: "text-hours-minutes", label: "Set Duration", },] }, {
-            "bot_label": "Is this task can be split into multiple times?", "key": "split", "options": [
-              { type: "Button", label: "Yes", value: "yes", page: "split" },
-              { type: "Button", label: "No", value: "no", page: "split" },
-            ]
-          }, {
-            "bot_label": "Task Added! what next?", "key": "more?", "options": [
+          { "bot_label": "How long do you want to spend on this task?", "key": "duration", "options": [{ type: "text-hours-minutes", label: "Set Duration", },] }, , {
+            "bot_label" : "Task Added! what next?", "key": "more?", "options": [
               { type: "Button", label: "Add another task", value: "more" },
               { type: "Button", label: "Generate New Calendar", value: "generate" },
             ]
@@ -203,6 +120,24 @@ export default function ChatBot({ navigation }) {
       }
     }
   }
+
+  async function handleTextSubmit() {
+    
+    try {
+      const response = await Chatbot.getAnswer(text);
+      console.log(response);
+      
+      setResponses((prev) => [
+          ...prev, 
+          { bot_label: <Text>{response}</Text> }  // Display bot's reply
+      ]);
+      setResponseIndex((prev) => prev + 1);
+
+      //setText(''); // Clear input
+      setInputMode(false); // Exit input mode
+  } catch (error) {
+      console.error("Error getting chatbot response:", error);
+  }}
   return (
     <View style={styles.container}>
       <View style={styles.image_conteiner}>
@@ -217,6 +152,7 @@ export default function ChatBot({ navigation }) {
         }
       >
         {responses?.map((response, index) => {
+
           return index > responseIndex ? (
             <View key={index}></View>
           ) : (
@@ -226,6 +162,7 @@ export default function ChatBot({ navigation }) {
                 <View style={styles.user_answer}>
                   {response.options?.map((option, index) => {
                     if (option.type === "Button") {
+
                       return (
                         <ChatButton
                           key={option.label + String(index)}
@@ -241,7 +178,9 @@ export default function ChatBot({ navigation }) {
                           key={option.label + String(index)}
                           text={option.label}
                           onPress={(val) => {
-                            task.duration = val
+                            const temp = task
+                            temp.duration = val
+                            setTask(temp)
                             if (option.successor) {
                               setResponses((prev) => [
                                 ...prev,
@@ -268,6 +207,21 @@ export default function ChatBot({ navigation }) {
           );
         })}
       </ScrollView>
+    
+ 
+      {inputMode && (
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Type your question..."
+            value={text}
+            onChangeText={setText}
+            onSubmitEditing={handleTextSubmit} // Trigger submission on "Enter"
+          />
+          <ChatButton text="Submit" onPress={handleTextSubmit} />
+        </View>
+      )}
+
       <View style={{ height: "2%", opacity: 0, marginTop: 0 }}></View>
     </View>
   );
@@ -308,5 +262,18 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     color: "white",
+  },
+  label: {
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 8,
+  },
+  input: {
+    height: 40,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingHorizontal: 8,
+    fontSize: 16,
   },
 });

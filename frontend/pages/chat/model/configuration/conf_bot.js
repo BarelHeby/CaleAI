@@ -8,7 +8,7 @@ const activities_options = Object.keys(Activities).map((key) => {
     page: "category"
   };
 });
-// console.log(activities_buttons);
+
 export default conf_bot = {
   greeting: {
     key: "greeting",
@@ -54,14 +54,6 @@ export default conf_bot = {
               },
             ],
           },
-          {
-            bot_label: "Is this task can be split into multiple times?",
-            key: "split",
-            options: [
-              { type: "Button", label: "Yes", value: "yes", page: "split" },
-              { type: "Button", label: "No", value: "no", page: "split" },
-            ],
-          },
             {
             bot_label: "Task Added! what next?",
             key: "more?",
@@ -80,6 +72,12 @@ export default conf_bot = {
         type: "Button",
         label: "Generate New Calendar",
         value: "generate",
+        successor: [],
+      },
+      {
+        type: "Button",
+        label: "Ask me a question",
+        value: "gemini",
         successor: [],
       },
     ],

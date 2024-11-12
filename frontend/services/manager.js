@@ -19,7 +19,7 @@ export default class Manager {
       headers: headers,
     });
   }
-  static async  post(model_url, body) {
+  static async post(model_url, body) {
     const token = await Storage.getData("token");
     const headers = {};
     if (token) {

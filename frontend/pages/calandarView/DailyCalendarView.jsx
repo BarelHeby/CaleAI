@@ -22,7 +22,6 @@ const Event = ({ event,refreshEvents }) => {
     return `${hours}:${minutes}`;
   }
   const activity =Activities[event.task.type_id.name];
-  console.log("eventtt",event)
   return (
     <View
       style={{

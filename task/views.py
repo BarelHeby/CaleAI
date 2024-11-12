@@ -41,6 +41,7 @@ class TaskView(APIView):
         token = request.META.get('HTTP_AUTHORIZATION')
         user = User.objects.get(token=token)
         for task in data:
+            print(task)
             task_type = TaskType.objects.get(name=task['category'])
             task_1 = Task.objects.create(
                 user_id=user,

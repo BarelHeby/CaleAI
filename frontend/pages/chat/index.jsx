@@ -79,7 +79,6 @@ export default function ChatBot({ navigation }) {
       if (option.value == "generate") {
         
         if(task != getDefaultTask()){
-          console.log("generate part:" , task)
           const temp = chosen_tasks
           temp.push(task)
           setChosenTasks(temp)
@@ -123,6 +122,12 @@ export default function ChatBot({ navigation }) {
 
   async function handleTextSubmit() {
     
+    setResponses((prev) => [
+      ...prev, 
+      { bot_label: <Text>{text}</Text> }  // Display bot's reply
+  ]);
+  setResponseIndex((prev) => prev + 1);
+    
     try {
       const response = await Chatbot.getAnswer(text);
       console.log(response);
@@ -133,8 +138,8 @@ export default function ChatBot({ navigation }) {
       ]);
       setResponseIndex((prev) => prev + 1);
 
-      //setText(''); // Clear input
-      setInputMode(false); // Exit input mode
+      setText(''); // Clear input
+      // setInputMode(false); // Exit input mode
   } catch (error) {
       console.error("Error getting chatbot response:", error);
   }}

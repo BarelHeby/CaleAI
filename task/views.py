@@ -38,9 +38,12 @@ class TaskView(APIView):
         Create a new task with all fields supported.
         """
         data = request.data["tasks"]
+        print(data)
         token = request.META.get('HTTP_AUTHORIZATION')
         user = User.objects.get(token=token)
         for task in data:
+            if task["category"] == "" and task["frequency"] == "" and task["duration"] == "" and task["time"] == "":
+                continue
             print(task)
             task_type = TaskType.objects.get(name=task['category'])
             task_1 = Task.objects.create(

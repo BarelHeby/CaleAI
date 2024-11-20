@@ -54,17 +54,17 @@ export default conf_bot = {
               },
             ],
           },
-            {
-            bot_label: "Task Added! what next?",
-            key: "more?",
-            type: "Button",
-            value: "more?",
+                {
+                bot_label: "Task Added! what next?",
+                key: "more?",
+                type: "Button",
+                value: "more",
 
-            options: [
-              { type: "Button", label: "Add another task", value: "more" },
-              { type: "Button", label: "Generate calendar", value: "generate" },
-            ],
-          },
+                options: [
+                  { type: "Button", label: "Add another task", value: "more" },
+                  { type: "Button", label: "Generate calendar", value: "generate" },
+                ],
+              },
 
         ],
       },

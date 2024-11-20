@@ -1,0 +1,39 @@
+{
+    "label": "Add Task",
+    "successor": [
+        {
+            "bot_label": "Great! What Category does the task belong to?",
+            "key": "category",
+            "options": [Array
+            ]
+        },
+        {
+            "bot_label": "How Often do you want to do this task?",
+            "key": "frequency",
+            "options": [Array
+            ]
+        },
+        {
+            "bot_label": "what time of the day do you wish to do this task?",
+            "key": "time",
+            "options": [Array
+            ]
+        },
+        {
+            "bot_label": "How long do you want to spend on this task?",
+            "key": "duration",
+            "options": [Array
+            ]
+        },
+        {
+            "bot_label": "Task Added! what next?",
+            "key": "more?",
+            "options": [Array
+            ],
+            "type": "Button",
+            "value": "more"
+        }
+    ],
+    "type": "Button",
+    "value": "add_task"
+}

@@ -12,7 +12,7 @@ from task_type.serializers import TaskTypeSerializer
 
 
 activities_data = {
-    "call": {
+    "callMom": {
         "label": "Call Mom",
         "emoji": "📞",
         "color": "tertiary"
@@ -43,6 +43,41 @@ activities_data = {
         "color": "tertiary"
     },
     "other": {
+        "label": "Other",
+        "emoji": "📅",
+        "color": "textPrimary"
+    },
+    "Call Mom": {
+        "label": "Call Mom",
+        "emoji": "📞",
+        "color": "tertiary"
+    },
+    "Exercise": {
+        "label": "Exercise",
+        "emoji": "🏋️",
+        "color": "secondary"
+    },
+    "Read a book": {
+        "label": "Read a book",
+        "emoji": "📖",
+        "color": "fourth"
+    },
+    "Listen to music": {
+        "label": "Listen to music",
+        "emoji": "🎧",
+        "color": "fifth"
+    },
+    "Learning": {
+        "label": "Learning",
+        "emoji": "📚",
+        "color": "primary"
+    },
+    "Clean the house": {
+        "label": "Clean the house",
+        "emoji": "🧹",
+        "color": "tertiary"
+    },
+    "Other": {
         "label": "Other",
         "emoji": "📅",
         "color": "textPrimary"

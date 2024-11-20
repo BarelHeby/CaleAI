@@ -6,8 +6,8 @@ class TaskType(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     color = models.CharField(max_length=150)
-    label = models.CharField(max_length=150)
-    emoji = models.CharField(max_length=100)
+    label = models.CharField(max_length=150,default="Task")
+    emoji = models.CharField(max_length=100,default="📝")
 
     def __str__(self):
         return self.id

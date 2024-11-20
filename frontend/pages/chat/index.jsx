@@ -20,7 +20,7 @@ const activities_options = Object.keys(Activities).map((key) => {
     type: "Button",
     label: Activities[key].label,
     emoji: Activities[key].emoji,
-    value: Activities[key].label,
+    value: key,
     page: "category",
   };
 });
@@ -53,7 +53,6 @@ export default function ChatBot({ navigation }) {
   }, [responseIndex]);
 
   async function onSubmit() {
-
     const resp = await Task.createTasks(chosen_tasks)
   }
   async function onButtonPress(option,response){
@@ -83,10 +82,16 @@ export default function ChatBot({ navigation }) {
           temp.push(task)
           setChosenTasks(temp)
         }
+        console.log(chosen_tasks)
         onSubmit()
       }
       if (option.value == "more") {
- 
+        if(task != getDefaultTask()){
+          const temp = chosen_tasks
+          temp.push(task)
+          setChosenTasks(temp)
+        }
+        console.log(chosen_tasks)
         setTask(getDefaultTask())
 
         setResponses((prev) => [
@@ -108,8 +113,8 @@ export default function ChatBot({ navigation }) {
             ],
           },
 
-          { "bot_label": "How long do you want to spend on this task?", "key": "duration", "options": [{ type: "text-hours-minutes", label: "Set Duration", },] }, , {
-            "bot_label" : "Task Added! what next?", "key": "more?", "options": [
+          { "bot_label": "How long do you want to spend on this task?", "key": "duration", "options": [{ type: "text-hours-minutes", label: "Set Duration", },] }, {
+            bot_label : "Task Added! what next?", "key": "more?", options: [
               { type: "Button", label: "Add another task", value: "more" },
               { type: "Button", label: "Generate New Calendar", value: "generate" },
             ]

@@ -22,4 +22,5 @@ urlpatterns = [
     path('calendars/', include('calendars.urls')),
     path('task/', include('task.urls')),
     path('event/', include('event.urls')),
+    path('chatbot/', include('chatbotAPI.urls')),
 ]

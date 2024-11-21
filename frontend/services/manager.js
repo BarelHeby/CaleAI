@@ -6,7 +6,7 @@ import Storage from "../models/storage";
 // import react-native-doten
 // const env = configDotenv();
 // import { API_URL } from "react-native-dotenv";
-const API_URL = "http://10.0.0.13:8000/";
+const API_URL = "http://10.0.0.22:8000/";
 export default class Manager {
   static async get(model_url, parameters, token = null) {
     const headers = {};
@@ -19,7 +19,7 @@ export default class Manager {
       headers: headers,
     });
   }
-  static async  post(model_url, body) {
+  static async post(model_url, body) {
     const token = await Storage.getData("token");
     const headers = {};
     if (token) {

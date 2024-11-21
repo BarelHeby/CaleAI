@@ -24,7 +24,6 @@ export default function CalandarView({ navigation }) {
   }
   useEffect(() => {
     async function getEvents() {
-      console.log("Getting events for date", selected);
       setIsLoading(true);
       const resp = await Event.getEvents(selected.toISOString().split("T")[0]);
       setEvents(resp);
@@ -83,7 +82,6 @@ export default function CalandarView({ navigation }) {
           }}
           onDayPress={(date) => setSelected(new Date(date.dateString))}
           onMonthChange={(month) => {
-            console.log("month changed", month);
           }}
           firstDay={0}
           onPressArrowLeft={(subtractMonth) => subtractMonth()}

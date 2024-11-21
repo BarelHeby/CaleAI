@@ -2,7 +2,7 @@ from rest_framework import serializers
 from task_type.models import TaskType
 
 
-class TaskSerializer(serializers.ModelSerializer):
+class TaskTypeSerializer(serializers.ModelSerializer):
     """
     Serializer for the Task model.
     """
@@ -12,17 +12,20 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = '__all__'  # Include all fields of the Task model
     def create(self, validated_data):
         taskType = TaskType.objects.create(
-            id=validated_data['id'],
             name=validated_data.get('name', ''),  # Handle optional fields
             color=validated_data.get('color', ''),
+            label=validated_data.get('label', ''),
+            emoji=validated_data.get('emoji', '')
         )
         taskType.save()
         return taskType
 
     def update(self, instance, validated_data):
-        instance.id = validated_data.get('id', instance.id)
+
         instance.name = validated_data.get('name', instance.name)  # Handle optional fields
         instance.color = validated_data.get('color', instance.color)
+        instance.label = validated_data.get('label', instance.label)
+        instance.emoji = validated_data.get('emoji', instance.emoji)
 
         instance.save()
         return instance

@@ -13,6 +13,8 @@ import Task from "../../models/Task";
 import TaskRow from "./TaskRow";
 import Icon from 'react-native-vector-icons/MaterialIcons'; // Make sure to install and import
 import User from "../../models/User";
+import { resetStackAndGoTo } from "../../models/Stack";
+import routes from "../../assets/routes";
 
 function TaskManager({ navigation }) {
     const [tasks, setTasks] = useState([]);
@@ -46,6 +48,7 @@ function TaskManager({ navigation }) {
     async function handleLogout() {
         await User.logout();
         resetStackAndGoTo(routes.welcome.name, navigation);
+        
     }
     return (
         <View style={styles.container}>

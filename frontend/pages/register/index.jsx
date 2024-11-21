@@ -29,12 +29,12 @@ export default function Register({ navigation }) {
     password: {
       value: "",
       placeholder: "Password",
-      type: "visible-password",
+      type: "password",
     },
     confirm_password: {
       value: "",
       placeholder: "Confirm Password",
-      type: "visible-password",
+      type: "password",
     },
   });
   const [loading, setLoading] = useState(false);
@@ -114,7 +114,7 @@ export default function Register({ navigation }) {
             value={info[key].value}
             onChangeText={(text) => updateInfo(key, text)}
             keyboardType={info[key].type}
-            secureTextEntry={info[key].type === "visible-password"}
+            secureTextEntry={info[key].type === "password"}
           />
         ))}
         {/* <TextBox
